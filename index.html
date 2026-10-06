@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ข้อมูลก่อนทำหัตถการเสี่ยงสูง สำหรับครอบครัว</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#EDF2F5; --surface:#FFFFFF; --ink:#14304A; --muted:#56708A; --line:#C7D5DF;
+  --accent:#1F6FB8; --accent-ink:#FFFFFF; --warm:#C77B17; --ok:#2D8A66; --danger:#B4443C; --chip:#E1EAF0;
+  --ui:'IBM Plex Sans Thai Looped','Noto Sans Thai','Leelawadee UI',Tahoma,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1D2A; --surface:#16283A; --ink:#E5EDF4; --muted:#9CB2C5; --line:#2B435A;
+    --accent:#6AAEE8; --accent-ink:#0F1D2A; --warm:#E3A24A; --ok:#5CC197; --danger:#E47B72; --chip:#1D3347;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1D2A; --surface:#16283A; --ink:#E5EDF4; --muted:#9CB2C5; --line:#2B435A;
+  --accent:#6AAEE8; --accent-ink:#0F1D2A; --warm:#E3A24A; --ok:#5CC197; --danger:#E47B72; --chip:#1D3347;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:17px;line-height:1.7}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 96px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h2{font-size:1.5rem;line-height:1.3;margin:0 0 .3em}
+h3{font-size:1.18rem;line-height:1.35;margin:0 0 .35em}
+p{margin:0 0 .8em}
+.lede{color:var(--muted);max-width:62ch;margin-bottom:1.4em}
+[hidden]{display:none!important}
+
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:3px solid var(--ink)}
+.mast .hosp{color:var(--muted);font-size:.95rem}
+.mast h1{font-size:clamp(2rem,5.2vw,3.2rem);line-height:1.12;margin:.15em 0 0;font-weight:700}
+.mast .en{color:var(--muted);font-size:1rem;margin-top:.3em}
+
+.stepnav{list-style:none;margin:0 0 30px;padding:12px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:sticky;top:0;background:var(--bg);z-index:20}
+.stepnav button{width:100%;text-align:left;background:none;border:0;border-top:5px solid var(--line);padding:9px 4px 10px 0;color:var(--muted);font:inherit;font-size:.95rem;line-height:1.35;cursor:pointer}
+.stepnav button b{display:block;font-size:.82rem;font-weight:600}
+.stepnav button[aria-selected="true"]{border-top-color:var(--accent);color:var(--ink);font-weight:600}
+@media (max-width:640px){.stepnav button{font-size:.8rem}.stepnav button b{font-size:.74rem}}
+
+.btn{font:inherit;font-weight:600;font-size:1rem;border-radius:999px;padding:9px 20px;min-height:46px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{min-height:36px;padding:4px 14px;font-size:.88rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.next-row{margin-top:30px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* landing */
+.intro{max-width:64ch;margin:26px 0 30px}
+.intro p{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px}
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card .thumb{height:230px;display:flex;justify-content:center;align-items:center;background-color:#F8FBFD;border-bottom:1px solid #C6D4DE;
+  background-image:linear-gradient(#E6EEF4 1px,transparent 1px),linear-gradient(90deg,#E6EEF4 1px,transparent 1px);background-size:20px 20px;padding:10px}
+.card .thumb svg{height:100%;width:auto;max-width:100%}
+.card .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:1.4rem;margin:0}
+.card .en{color:var(--muted);font-size:.9rem}
+.card p{margin:0 0 10px;color:var(--ink)}
+.card .btn{margin-top:auto;align-self:flex-start}
+
+/* forms */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 22px}
+.f{display:flex;flex-direction:column;gap:5px;font-size:.92rem;color:var(--muted)}
+.f.wide{grid-column:1/-1}
+input,select,textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;min-height:46px;width:100%}
+textarea{min-height:84px;resize:vertical;line-height:1.55}
+input[type=checkbox],input[type=radio]{width:22px;height:22px;min-height:0;margin:3px 0 0;accent-color:var(--accent);flex:none}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font-weight:600;padding:0;margin-bottom:6px;font-size:1rem}
+.checks label,.chk{display:flex;gap:12px;align-items:flex-start;padding:6px 0;color:var(--ink);font-size:.98rem}
+.section{padding:26px 0;border-top:1px solid var(--line)}
+.section:first-of-type{border-top:0;padding-top:0}
+.hint{font-size:.88rem;color:var(--muted)}
+.privacy{font-size:.9rem;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin-top:22px}
+
+/* plates */
+.plate-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:860px){.plate-grid{grid-template-columns:1fr}}
+.plate{position:relative;background-color:#F8FBFD;border:1px solid #C6D4DE;border-radius:4px;
+  background-image:linear-gradient(#E6EEF4 1px,transparent 1px),linear-gradient(90deg,#E6EEF4 1px,transparent 1px);background-size:24px 24px}
+.plate svg{display:block;width:100%;height:auto}
+.plate .cap{padding:4px 12px 8px;font-size:.78rem;color:#56708A}
+.plate .tog{position:absolute;right:10px;top:10px;z-index:2}
+.plate .tog button{background:#fff;color:#14304A;border-color:#14304A}
+.lbl{font-family:var(--ui);font-size:13px;font-weight:600;fill:#14304A;paint-order:stroke;stroke:#F8FBFD;stroke-width:4px;stroke-linejoin:round}
+.lead{stroke:#14304A;stroke-width:1;opacity:.55}
+.lyr{transition:opacity .45s ease}
+.lyr.off{opacity:0;pointer-events:none}
+.draw{transition:stroke-dashoffset 1.3s ease-in-out}
+.flow{stroke-dasharray:6 10;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-32}}
+.hide-labels .labels{display:none}
+.compress{animation:cmp .27s ease-in-out infinite alternate;transform-box:view-box}
+@keyframes cmp{to{transform:translateY(12px)}}
+.squash{animation:sq .27s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes sq{to{transform:scaleY(.72)}}
+
+.stepper .count{color:var(--muted);font-size:.92rem}
+.stepper h3{font-size:1.55rem;margin:.1em 0 .4em}
+.stepper ul{padding-left:1.2em;margin:.4em 0 1em}
+.stepper li{margin-bottom:.35em}
+.dots{list-style:none;padding:0;margin:0 0 18px;display:flex;gap:6px;flex-wrap:wrap}
+.dots button{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-weight:600;cursor:pointer}
+.dots button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.inset{display:flex;gap:16px;align-items:center;margin:16px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.inset .ih{flex:none;width:170px}
+.inset .ih svg{width:100%;height:auto;display:block}
+.inset p{margin:0;font-size:.92rem;color:var(--muted)}
+@media (max-width:480px){.inset{flex-direction:column;align-items:flex-start}.inset .ih{width:100%;max-width:260px}}
+
+/* care */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 26px}
+.chip{border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 16px;font:inherit;font-size:.95rem;cursor:pointer}
+.chip[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.panel{max-width:820px}
+.worry{border-left:4px solid var(--warm);padding:2px 0 2px 18px;margin:0 0 22px}
+.worry h4{margin:0 0 4px;font-size:1.08rem}
+.worry p{margin:0}
+.fig{margin:6px 0 26px}
+.fig .plate{max-width:640px}
+.fig figcaption{font-size:.88rem;color:var(--muted);margin-top:6px;max-width:640px}
+.seq{list-style:none;counter-reset:s;padding:0;margin:10px 0 20px}
+.seq li{counter-increment:s;position:relative;padding:0 0 18px 52px}
+.seq li::before{content:counter(s);position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
+.seq li:not(:last-child)::after{content:"";position:absolute;left:17px;top:38px;bottom:2px;width:2px;background:var(--line)}
+.seq b{display:block}
+.dur{margin:18px 0 8px}
+.dur .axis{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);padding-top:4px}
+.dur .r{margin:0 0 14px}
+.dur .r span{font-size:.92rem;display:block}
+.dur .track{position:relative;height:14px;background:var(--chip);border-radius:7px}
+.dur .bar{position:absolute;top:0;bottom:0;border-radius:7px;background:var(--accent);min-width:10px}
+.dur .mark{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--warm)}
+.dr-box{background:var(--surface);border:1.5px solid var(--accent);border-radius:10px;padding:16px 18px;margin:18px 0}
+.dr-box h4{margin:0 0 6px}
+.dr-box .empty{color:var(--muted)}
+.tbl{overflow-x:auto}
+table.risk{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem}
+table.risk th,table.risk td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.risk th{font-size:.85rem;color:var(--muted);font-weight:600}
+table.risk tr.grp td{font-weight:700;padding-top:16px;border-bottom:2px solid var(--ink)}
+.freq{white-space:nowrap}
+.freq i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);margin-right:3px}
+.freq i.on{background:var(--warm)}
+.riskfig{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:24px;align-items:start;margin:8px 0 26px}
+@media (max-width:720px){.riskfig{grid-template-columns:1fr}}
+.rlegend{list-style:none;padding:0;margin:0}
+.rlegend li{display:flex;gap:10px;align-items:flex-start;margin:0 0 10px}
+.rlegend b.n{flex:none;width:26px;height:26px;border-radius:50%;background:#B4443C;color:#fff;display:grid;place-items:center;font-size:.85rem}
+.rlegend small{display:block;color:var(--muted)}
+.faces{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0 22px}
+.faces figure{margin:0;width:120px;text-align:center;font-size:.88rem;color:var(--muted)}
+.faces svg{width:84px;height:84px}
+.sedscale{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:14px 0 4px;font-size:.82rem;text-align:center}
+.sedscale div{padding:10px 4px;border-radius:6px;background:var(--chip);color:var(--ink);line-height:1.3}
+.sedscale div.tgt{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.sedscale-cap{display:grid;grid-template-columns:repeat(6,1fr);font-size:.8rem;color:var(--muted);margin-bottom:22px}
+.sedscale-cap span{grid-column:3/6;text-align:center;border-top:2px solid var(--accent);padding-top:3px}
+
+/* consent */
+.decision{display:flex;gap:10px;flex-wrap:wrap}
+.decision label{display:flex;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:10px;padding:12px 18px;cursor:pointer;background:var(--surface);color:var(--ink);font-weight:600}
+.decision label:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.sigs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.sig{display:flex;flex-direction:column;gap:6px}
+.sig canvas{width:100%;height:150px;background:#fff;border:1.5px dashed #9FB3C3;border-radius:8px;touch-action:none;cursor:crosshair}
+.sig .row{justify-content:space-between}
+.errs{border-left:4px solid var(--danger);padding:8px 14px;margin:18px 0;color:var(--ink)}
+.errs ul{margin:4px 0 0;padding-left:1.2em}
+.status{min-height:1.6em;color:var(--muted);font-size:.95rem;margin-top:10px}
+.preview{margin-top:26px;background:var(--chip);border-radius:10px;padding:16px;overflow:hidden}
+.preview .scaler{transform-origin:top left}
+
+/* A4 */
+.a4{width:794px;height:1123px;background:#fff;color:#111;font-family:'Sarabun','Noto Sans Thai',Tahoma,sans-serif;font-size:var(--pfs,13px);line-height:1.5;padding:38px 50px 30px;display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(0,0,0,.25);margin:0 0 16px}
+.a4 .pg-body{flex:1;overflow:hidden}
+.a4 .pg-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:6px}
+.a4 .ph-h{font-size:1.35em;font-weight:700}
+.a4 .ph-s{font-size:.95em}
+.a4 .ph-id{border:1px solid #111;padding:4px 10px;font-size:.95em;min-width:150px}
+.a4 h1{font-size:1.4em;line-height:1.3;margin:8px 0 6px}
+.a4 h1 .en{font-size:.68em;font-weight:400}
+.a4 h2{font-size:1.06em;margin:9px 0 3px;border-bottom:1px solid #aaa;padding-bottom:1px}
+.a4 p{margin:0 0 3px}
+.a4 ul,.a4 ol{margin:2px 0;padding-left:1.35em}
+.a4 li{margin:0 0 1px}
+.a4 table.pt{width:100%;border-collapse:collapse;margin-top:4px}
+.a4 table.pt td{border:1px solid #888;padding:2px 7px;vertical-align:top}
+.a4 .pfig{display:grid;grid-template-columns:1fr 228px;gap:14px;align-items:start}
+.a4 .legend{font-size:.82em;display:grid;grid-template-columns:1fr 1fr;gap:0 8px;margin-top:2px}
+.a4 .box{display:inline-block;width:.9em;height:.9em;border:1.3px solid #111;vertical-align:-.1em;margin-right:6px;position:relative}
+.a4 .box.on::after{content:"";position:absolute;left:2px;top:2px;right:2px;bottom:2px;background:#111}
+.a4 .note{border:1px solid #888;padding:4px 8px;margin-top:4px}
+.a4 .note > div{margin:2px 0}
+.a4 .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px}
+.a4 .scell{text-align:center;font-size:.92em}
+.a4 .scell img,.a4 .scell .blank{display:block;width:100%;height:62px;object-fit:contain;border-bottom:1px solid #111;margin-bottom:3px}
+.a4 .pg-foot{font-size:10px;color:#444;display:flex;justify-content:space-between;border-top:1px solid #999;padding-top:5px;margin-top:6px}
+#capHost{position:fixed;left:-12000px;top:0}
+#printHost{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  body{background:#fff}
+  .wrap,#capHost{display:none!important}
+  #printHost{display:block!important}
+  #printHost .a4{box-shadow:none;margin:0;break-after:page;page-break-after:always}
+}
+@media (prefers-reduced-motion: reduce){
+  .lyr,.draw{transition:none}
+  .flow,.compress,.squash{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div>
+      <div class="hosp" id="hospShow">โรงพยาบาลลำดวน</div>
+      <h1 id="mastTitle">ข้อมูลก่อนทำหัตถการเสี่ยงสูง</h1>
+      <div class="en" id="mastSub">สำหรับอธิบายครอบครัว และบันทึกความยินยอม</div>
+    </div>
+    <button class="btn" id="toLanding" hidden>เลือกหัตถการอื่น</button>
+  </header>
+
+  <!-- LANDING -->
+  <section id="landing">
+    <div class="intro">
+      <h2>เลือกหัตถการที่ต้องการอธิบาย</h2>
+      <p>แต่ละหัตถการมีภาพอธิบายทีละขั้นตอน ข้อกังวลที่ครอบครัวถามบ่อย การจัดการความปวดและยานอนหลับ ความเสี่ยง การพยากรณ์โรค และแบบแสดงความยินยอมที่บันทึกเป็น PDF ได้</p>
+    </div>
+    <div class="cards" id="cards"></div>
+    <p class="privacy">ข้อมูลผู้ป่วยอยู่ในเบราว์เซอร์นี้เท่านั้น ไม่ถูกบันทึกหรือส่งออกไปที่ใด ข้อมูลผู้ป่วยที่กรอกจะใช้ต่อได้เมื่อเปลี่ยนหัตถการ จนกว่าจะปิดหน้าหรือกดล้างข้อมูล</p>
+  </section>
+
+  <ol class="stepnav" role="tablist" aria-label="ขั้นตอน" hidden>
+    <li><button role="tab" data-view="0" aria-selected="true"><b>1</b>ข้อมูลผู้ป่วย</button></li>
+    <li><button role="tab" data-view="1" aria-selected="false"><b>2</b>ภาพอธิบายหัตถการ</button></li>
+    <li><button role="tab" data-view="2" aria-selected="false"><b>3</b>การดูแลและข้อกังวล</button></li>
+    <li><button role="tab" data-view="3" aria-selected="false"><b>4</b>ยินยอมและ PDF</button></li>
+  </ol>
+
+  <!-- VIEW 1 -->
+  <section class="view" data-v="0" hidden>
+    <h2>ข้อมูลผู้ป่วยและความเห็นแพทย์</h2>
+    <p class="lede">แพทย์หรือพยาบาลกรอกก่อนพูดคุยกับครอบครัว ข้อมูลจะแสดงในหน้าอธิบายและในเอกสาร PDF</p>
+    <div class="section">
+      <div class="grid">
+        <label class="f">ชื่อโรงพยาบาล<input id="hosp" value="โรงพยาบาลลำดวน"></label>
+        <label class="f">ชื่อ-สกุลผู้ป่วย<input id="ptName" autocomplete="off"></label>
+        <label class="f">HN<input id="hn" autocomplete="off" inputmode="numeric"></label>
+        <label class="f">AN<input id="an" autocomplete="off" inputmode="numeric"></label>
+        <label class="f">อายุ (ปี)<input id="age" inputmode="numeric"></label>
+        <label class="f">เพศ<select id="sex"><option value="">เลือก</option><option>ชาย</option><option>หญิง</option></select></label>
+        <label class="f">หอผู้ป่วย / เตียง<input id="ward"></label>
+        <label class="f wide">การวินิจฉัย<input id="dx"></label>
+      </div>
+    </div>
+    <div id="procFields"></div>
+    <div class="next-row"><button class="btn" data-landing>กลับหน้าเลือกหัตถการ</button><button class="btn primary" data-go="1">ไปที่ภาพอธิบาย</button></div>
+  </section>
+
+  <!-- VIEW 2 -->
+  <section class="view" data-v="1" hidden>
+    <h2 id="illTitle"></h2>
+    <p class="lede">กดดูทีละขั้นตอนไปพร้อมกับครอบครัว</p>
+    <div class="plate-grid">
+      <div class="plate" id="plate">
+        <div class="tog"><button class="btn small" id="togLabels" aria-pressed="true">ซ่อนชื่ออวัยวะ</button></div>
+        <div id="svgHost"></div>
+        <div class="cap" id="plateCap"></div>
+      </div>
+      <div class="stepper" aria-live="polite">
+        <ol class="dots" id="dots"></ol>
+        <div class="count" id="sCount"></div>
+        <h3 id="sTitle"></h3>
+        <p id="sDesc"></p>
+        <ul id="sPts"></ul>
+        <div class="inset" id="inset" hidden><div class="ih" id="insetFig"></div><p id="insetText"></p></div>
+        <div class="row"><button class="btn" id="prev">ย้อนกลับ</button><button class="btn primary" id="next">ขั้นตอนถัดไป</button></div>
+      </div>
+    </div>
+    <div class="next-row"><button class="btn" data-go="0">กลับไปข้อมูลผู้ป่วย</button><button class="btn primary" data-go="2">ไปที่การดูแลและข้อกังวล</button></div>
+  </section>
+
+  <!-- VIEW 3 -->
+  <section class="view" data-v="2" hidden>
+    <h2 id="careTitle"></h2>
+    <p class="lede">เลือกหัวข้อที่ครอบครัวอยากรู้</p>
+    <div class="chips" role="tablist" id="chips"></div>
+    <div id="panels"></div>
+    <div class="next-row"><button class="btn" data-go="1">กลับไปภาพอธิบาย</button><button class="btn primary" data-go="3">ไปที่การแสดงความยินยอม</button></div>
+  </section>
+
+  <!-- VIEW 4 -->
+  <section class="view" data-v="3" hidden>
+    <h2 id="consentTitle">การแสดงความยินยอม</h2>
+    <p class="lede">ตรวจสอบว่าครอบครัวเข้าใจทุกข้อ แล้วให้ลงชื่อบนหน้าจอ ระบบจะสร้างเอกสาร PDF สองหน้าเพื่อเก็บในเวชระเบียน</p>
+    <div class="section">
+      <div class="grid">
+        <label class="f">ชื่อ-สกุลผู้ให้ความยินยอม<input id="cName" autocomplete="off"></label>
+        <label class="f">ความเกี่ยวข้องกับผู้ป่วย
+          <select id="cRel"><option value="">เลือก</option><option>ผู้ป่วยเอง</option><option>คู่สมรส</option><option>บุตร</option><option>บิดา/มารดา</option><option>พี่น้อง</option><option>ผู้แทนโดยชอบธรรม</option><option>อื่น ๆ</option></select></label>
+        <label class="f">ชื่อ-สกุลพยาน<input id="wName" autocomplete="off"></label>
+        <label class="f">วันและเวลา<input id="when" type="datetime-local"></label>
+      </div>
+    </div>
+    <div class="section"><fieldset class="checks" id="acks"><legend>ครอบครัวยืนยันว่า</legend></fieldset></div>
+    <div class="section">
+      <fieldset><legend>การตัดสินใจ</legend><div class="decision" id="decisions"></div></fieldset>
+      <div id="decExtra" style="margin-top:14px"></div>
+    </div>
+    <div class="section">
+      <h3>ลงชื่อ</h3>
+      <p class="hint">ใช้นิ้วหรือปากกาสไตลัสเซ็นในกรอบ</p>
+      <div class="sigs">
+        <div class="sig"><canvas id="sig1" aria-label="ช่องลงชื่อผู้ให้ความยินยอม"></canvas><div class="row"><span>ผู้ให้ความยินยอม</span><button class="btn small" data-clear="sig1">ล้าง</button></div></div>
+        <div class="sig"><canvas id="sig2" aria-label="ช่องลงชื่อพยาน"></canvas><div class="row"><span>พยาน</span><button class="btn small" data-clear="sig2">ล้าง</button></div></div>
+        <div class="sig"><canvas id="sig3" aria-label="ช่องลงชื่อแพทย์"></canvas><div class="row"><span>แพทย์ผู้ให้ข้อมูล</span><button class="btn small" data-clear="sig3">ล้าง</button></div></div>
+      </div>
+    </div>
+    <div class="errs" id="errs" role="alert" hidden></div>
+    <div class="row">
+      <button class="btn" id="btnPreview">ดูตัวอย่างเอกสาร</button>
+      <button class="btn primary" id="btnPdf">บันทึกเป็น PDF</button>
+      <button class="btn" id="btnPrint">พิมพ์</button>
+      <button class="btn" id="btnReset" style="margin-left:auto">ล้างข้อมูลทั้งหมด</button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+    <div class="preview" id="preview" hidden><div class="scaler" id="pages"></div></div>
+    <div class="next-row"><button class="btn" data-go="2">กลับไปการดูแลและข้อกังวล</button><span></span></div>
+  </section>
+</div>
+<div id="capHost" aria-hidden="true"></div>
+<div id="printHost" aria-hidden="true"></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const val=id=>($('#'+id)?.value||'').trim();
+const nl=s=>esc(s).replace(/\n/g,'<br>');
+function inRange(r,s){const [a,b]=String(r).split('-').map(Number);return s>=a&&s<=(isNaN(b)?a:b);}
+
+/* ================= SVG helpers ================= */
+function mk(mode,ps){
+  const P=mode!=='screen', N=mode==='print', T=mode==='thumb'||mode==='risk';
+  const L=(show,c)=>P?(inRange(show,ps)?c:''):`<g class="lyr" data-show="${show}">${c}</g>`;
+  const D=P?'':'class="draw"';let VB=null;
+  const lab=o=>{
+    if(T)return '';
+    const [ax,ay]=o.a;let [px,py]=o.p;
+    if(N&&VB){px=Math.min(Math.max(px,VB[0]+13),VB[0]+VB[2]-13);py=Math.min(Math.max(py,VB[1]+13),VB[1]+VB[3]-13);}
+    if(N)return `<line x1="${ax}" y1="${ay}" x2="${px}" y2="${py}" stroke="#14304A" stroke-width="1" opacity=".6"/><circle cx="${ax}" cy="${ay}" r="2.5" fill="#14304A"/><circle cx="${px}" cy="${py}" r="11" fill="#14304A"/><text x="${px}" y="${py+4}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="700" fill="#fff">${o.n}</text>`;
+    const tx=o.s==='start'?px+3:px-3;
+    return `<line class="lead" x1="${ax}" y1="${ay}" x2="${px}" y2="${py-4}"/><circle cx="${ax}" cy="${ay}" r="2.5" fill="#14304A"/><text class="lbl" x="${tx}" y="${py}" text-anchor="${o.s}">${o.t}</text>`;
+  };
+  const labels=arr=>`<g class="labels">${arr.map(o=>o.show?L(o.show,lab(o)):lab(o)).join('')}</g>`;
+  const open=(vb,aria)=>{const [x,y,w,h]=vb.split(' ').map(Number);VB=[x,y,w,h];const pw=228,ph=Math.round(pw*h/w);
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" ${N?`width="${pw}" height="${ph}"`:''} role="img" aria-label="${aria}">${N?`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff"/>`:''}`;};
+  return {P,N,L,D,lab,labels,open};
+}
+function riskMarks(list){return list.map(m=>`<circle cx="${m.a[0]}" cy="${m.a[1]}" r="30" fill="none" stroke="#B4443C" stroke-width="2" stroke-dasharray="4 4"/><circle cx="${m.a[0]}" cy="${m.a[1]}" r="19" fill="#B4443C" stroke="#fff" stroke-width="2"/><text x="${m.a[0]}" y="${m.a[1]+7}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" fill="#fff">${m.n}</text>`).join('');}
+
+/* ---------- ETT airway ---------- */
+const ETT_ANAT=[
+ {n:1,t:'โพรงจมูก',a:[210,192],p:[200,150],s:'start'},
+ {n:2,t:'ลิ้น',a:[226,262],p:[150,340],s:'end'},
+ {n:3,t:'เพดานอ่อน',a:[292,230],p:[362,206],s:'start'},
+ {n:4,t:'ฝาปิดกล่องเสียง',a:[287,300],p:[362,280],s:'start'},
+ {n:5,t:'สายเสียง',a:[318,352],p:[362,340],s:'start'},
+ {n:6,t:'หลอดลม',a:[292,455],p:[205,455],s:'end'},
+ {n:7,t:'หลอดอาหาร',a:[346,475],p:[378,488],s:'start'},
+ {n:8,t:'จุดแยกหลอดลม',a:[306,570],p:[378,600],s:'start'},
+ {n:9,t:'ท่อช่วยหายใจ',a:[90,234],p:[22,206],s:'start',show:'4-6'},
+ {n:10,t:'ลูกโป่ง (cuff)',a:[321,402],p:[362,404],s:'start',show:'5-6'},
+ {n:11,t:'ปลายท่อ',a:[306,520],p:[205,524],s:'end',show:'4-6',pdf:'ปลายท่อ (เหนือจุดแยก 3–5 ซม.)'}
+];
+const TUBE_D='M 30 234 L 144 234 C 200 228, 252 222, 282 240 C 300 258, 306 292, 306 340 L 306 520';
+function ettSvg(mode,ps=5){
+  const {L,D,labels,open,P}=mk(mode,ps);
+  let rings='';for(let y=372;y<=540;y+=18)rings+=`<path d="M 291 ${y} Q 306 ${y+4} 321 ${y}" stroke="#E4AFA8" stroke-width="3" fill="none"/>`;
+  let verts='';for(let y=232;y<=400;y+=32)verts+=`<rect x="352" y="${y}" width="28" height="25" rx="5" fill="#EFE3D3" stroke="#D6C3AA"/>`;
+  return open('0 0 480 625','ภาพตัดด้านข้างแสดงทางเดินหายใจและตำแหน่งท่อช่วยหายใจ')+`
+  ${L('6',`<path d="M 34 234 C 10 210, 18 150, 52 106" fill="none" stroke="#7D8C99" stroke-width="9" stroke-linecap="round" stroke-dasharray="3 3"/><rect x="10" y="48" width="124" height="58" rx="8" fill="#fff" stroke="#4E5B67" stroke-width="1.5"/><polyline points="20,92 34,92 40,70 48,92 62,92 68,70 76,92 90,92 96,70 104,92 124,92" fill="none" stroke="#2D8A66" stroke-width="2"/>${P?'':'<text x="72" y="66" text-anchor="middle" class="lbl" style="font-size:12px">เครื่องช่วยหายใจ</text>'}`)}
+  <path d="M 255 22 C 320 18, 395 50, 420 110 C 445 170, 430 230, 405 275 C 395 300, 392 330, 398 380 L 420 625 L 150 625 C 165 560, 200 470, 215 420 C 222 390, 222 350, 215 318 C 195 312, 170 305, 158 292 C 148 282, 150 268, 152 258 C 146 252, 140 248, 142 242 C 136 238, 136 232, 142 228 C 138 222, 136 216, 140 210 C 130 206, 118 198, 112 186 C 104 180, 104 170, 112 165 C 128 150, 142 120, 150 100 C 152 90, 150 80, 158 66 C 175 40, 210 25, 255 22 Z" fill="#F4D6C6" stroke="#D3A188" stroke-width="2"/>
+  ${verts}
+  <path d="M 324 340 L 345 340 C 350 440, 360 540, 382 625 L 364 625 C 346 540, 336 440, 324 340 Z" fill="#E6C2A8" stroke="#C99A7E"/>
+  <path d="M 116 189 C 150 177, 240 168, 302 182 L 300 214 C 260 207, 180 205, 126 201 Z" fill="#FFF3EF" stroke="#E0A39A"/>
+  <path d="M 142 231 C 190 216, 255 212, 298 216 L 300 182 C 310 178, 322 180, 332 188 C 342 222, 344 282, 335 332 L 322 352 L 322 548 C 322 560, 342 578, 364 612 L 348 619 C 332 592, 316 576, 306 570 C 296 576, 280 592, 264 619 L 248 612 C 270 578, 290 560, 290 548 L 290 362 C 290 348, 284 338, 276 330 C 262 318, 242 304, 214 296 C 188 288, 164 268, 150 246 Z" fill="#FFF3EF" stroke="#E0A39A" stroke-width="1.5"/>
+  ${rings}
+  <path d="M 140 205 C 190 203, 240 205, 270 210 L 270 216 C 240 213, 190 213, 150 220 Z" fill="#E7BFAE"/>
+  <path d="M 268 210 C 286 212, 300 220, 304 236 C 305 244, 299 245, 296 238 C 290 226, 280 220, 268 217 Z" fill="#E8A49E"/>
+  <path d="M 152 248 C 166 236, 204 230, 240 233 C 274 237, 296 256, 300 282 C 299 294, 293 302, 286 306 C 262 302, 232 294, 208 288 C 182 280, 162 264, 152 248 Z" fill="#E58C88" stroke="#C9716B"/>
+  <path d="M 279 318 C 281 304, 285 292, 291 282 C 296 294, 293 308, 288 320 Z" fill="#D46F6A"/>
+  <path d="M 290 346 L 301 352 L 290 358 Z" fill="#F4EFE8" stroke="#C9908A"/>
+  <path d="M 322 346 L 311 352 L 322 358 Z" fill="#F4EFE8" stroke="#C9908A"/>
+  <path d="M 140 214 L 150 213 L 150 228 Q 145 231 140 228 Z" fill="#fff" stroke="#C8BDB4"/>
+  <path d="M 144 240 Q 149 237 154 240 L 154 254 L 145 254 Z" fill="#fff" stroke="#C8BDB4"/>
+  ${L('1',`<path class="flow" d="M 116 190 C 200 180, 290 180, 314 214 C 322 260, 316 320, 306 360 L 306 545" fill="none" stroke="#2D8A66" stroke-width="3"/><path class="flow" d="M 140 236 C 200 232, 270 238, 304 272" fill="none" stroke="#2D8A66" stroke-width="3"/>`)}
+  ${L('2',`<path d="M 105 228 C 70 250, 50 300, 38 345" fill="none" stroke="#3E93C4" stroke-width="4"/><path d="M 150 172 C 220 158, 330 148, 412 150" fill="none" stroke="#3E93C4" stroke-width="2" stroke-dasharray="5 4"/><path d="M 102 160 C 86 196, 96 250, 150 266 C 172 250, 168 196, 128 150 Z" fill="rgba(120,195,235,.35)" stroke="#3E93C4" stroke-width="2"/>`)}
+  ${L('4-6',`<path ${D} d="${TUBE_D}" fill="none" stroke="#1F6FB8" stroke-width="11" stroke-linecap="round"/><path ${D} d="${TUBE_D}" fill="none" stroke="#CFE6FA" stroke-width="4" stroke-linecap="round"/><rect x="20" y="226" width="16" height="16" rx="2" fill="#EAEFF3" stroke="#4E5B67"/>`)}
+  ${L('5-6',`<ellipse cx="306" cy="402" rx="16" ry="27" fill="rgba(96,170,230,.45)" stroke="#1F6FB8" stroke-width="1.5"/><path d="M 96 236 C 86 252, 78 264, 74 281" fill="none" stroke="#1F6FB8" stroke-width="1.5"/><ellipse cx="73" cy="292" rx="6" ry="10" fill="rgba(96,170,230,.6)" stroke="#1F6FB8"/>`)}
+  ${L('5',`<path d="M 272 520 L 280 520 M 276 520 L 276 570 M 272 570 L 280 570" stroke="#C77B17" stroke-width="2" fill="none"/>${P?'':'<text x="268" y="550" text-anchor="end" class="lbl" style="fill:#9A5B0C">3–5 ซม.</text>'}`)}
+  ${L('6',`<path class="flow" d="${TUBE_D}" fill="none" stroke="#FFFFFF" stroke-width="2"/>`)}
+  ${L('3-4',`<path d="M 128 226 C 190 214, 250 226, 284 298" fill="none" stroke="#8A97A3" stroke-width="6" stroke-linecap="round"/><path d="M 126 218 L 100 122" stroke="#4E5B67" stroke-width="18" stroke-linecap="round"/>`)}
+  ${labels(ETT_ANAT)}</svg>`;
+}
+function glottis(withTube){
+  return `<svg viewBox="0 0 200 200" aria-hidden="true"><defs><clipPath id="gc"><circle cx="100" cy="100" r="95"/></clipPath></defs>
+  <g clip-path="url(#gc)"><rect width="200" height="200" fill="#8A3A40"/>
+  <path d="M 40 58 Q 100 18 160 58 Q 100 46 40 58 Z" fill="#E8A49E"/>
+  <path d="M 100 72 L 68 152 Q 100 164 132 152 Z" fill="#2A0E12"/>
+  <path d="M 100 72 L 70 150 M 100 72 L 130 150" stroke="#F5F0EA" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="74" cy="164" r="13" fill="#D9827E"/><circle cx="126" cy="164" r="13" fill="#D9827E"/>
+  ${withTube?'<ellipse cx="100" cy="124" rx="17" ry="19" fill="#1F6FB8" stroke="#fff" stroke-width="2"/><ellipse cx="100" cy="124" rx="9" ry="10" fill="#CFE6FA"/>':''}
+  </g><circle cx="100" cy="100" r="95" fill="none" stroke="#14304A" stroke-width="3"/></svg>`;
+}
+function icuBed(){
+  const {lab}=mk('screen');
+  const lbls=[
+   {t:'เครื่องช่วยหายใจ',a:[40,72],p:[4,128],s:'start'},
+   {t:'ท่อช่วยหายใจ',a:[112,138],p:[96,192],s:'end'},
+   {t:'จอติดตามสัญญาณชีพ',a:[390,92],p:[536,116],s:'end'},
+   {t:'เครื่องหยดยาแก้ปวดและยานอนหลับ',a:[270,100],p:[536,152],s:'end'},
+   {t:'สายให้อาหารทางจมูก',a:[205,40],p:[196,16],s:'end'},
+   {t:'ยกหัวเตียง 30–45° ลดการสำลัก',a:[160,200],p:[180,262],s:'end'},
+   {t:'ผ้านุ่มยึดข้อมือ เมื่อจำเป็น',a:[279,186],p:[300,262],s:'start'}];
+  return `<svg viewBox="0 0 540 300" role="img" aria-label="ผู้ป่วยใส่ท่อช่วยหายใจนอนบนเตียงไอซียู">
+  <line x1="0" y1="286" x2="540" y2="286" stroke="#C6D4DE" stroke-width="2"/>
+  <rect x="20" y="100" width="8" height="186" fill="#8C9BA8"/><rect x="0" y="40" width="80" height="64" rx="8" fill="#fff" stroke="#4E5B67" stroke-width="1.5"/>
+  <rect x="8" y="48" width="64" height="32" rx="3" fill="#0E2230"/><polyline points="12,72 22,72 26,56 32,72 44,72 48,56 54,72 68,72" fill="none" stroke="#3DDC97" stroke-width="1.5"/>
+  <circle cx="14" cy="282" r="5" fill="#4E5B67"/><circle cx="36" cy="282" r="5" fill="#4E5B67"/>
+  <path d="M 70 92 C 82 118, 92 130, 106 134" fill="none" stroke="#9AA7B2" stroke-width="8" stroke-linecap="round" stroke-dasharray="3 2"/>
+  <line x1="215" y1="20" x2="215" y2="282" stroke="#8C9BA8" stroke-width="4"/><line x1="200" y1="22" x2="230" y2="22" stroke="#8C9BA8" stroke-width="3"/>
+  <path d="M 198 26 L 218 26 C 222 26, 222 30, 222 34 L 222 52 C 222 58, 216 60, 210 60 C 204 60, 198 58, 198 52 Z" fill="#F5E6C8" stroke="#C9B68F"/>
+  <rect x="222" y="70" width="50" height="30" rx="4" fill="#fff" stroke="#4E5B67"/><rect x="228" y="76" width="22" height="10" fill="#0E2230"/><rect x="254" y="78" width="14" height="6" rx="2" fill="#C77B17"/>
+  <rect x="222" y="106" width="50" height="30" rx="4" fill="#fff" stroke="#4E5B67"/><rect x="228" y="112" width="22" height="10" fill="#0E2230"/><rect x="254" y="114" width="14" height="6" rx="2" fill="#1F6FB8"/>
+  <path d="M 262 100 C 266 140, 262 168, 276 182 M 262 136 C 270 160, 270 172, 278 182" fill="none" stroke="#7FA9C6" stroke-width="1.5"/>
+  <rect x="330" y="20" width="120" height="72" rx="6" fill="#0E2230" stroke="#4E5B67"/>
+  <polyline points="338,50 352,50 356,40 360,58 364,50 380,50 384,40 388,58 392,50 404,50" fill="none" stroke="#3DDC97" stroke-width="1.5"/>
+  <text x="414" y="48" font-family="Arial" font-size="13" fill="#3DDC97">88</text><text x="414" y="70" font-family="Arial" font-size="13" fill="#5BC8F5">97</text>
+  <polyline points="338,74 348,74 352,66 358,80 362,74 376,74 380,66 386,80 390,74 404,74" fill="none" stroke="#5BC8F5" stroke-width="1.5"/>
+  <path d="M 360 92 C 340 130, 260 150, 222 172" fill="none" stroke="#9AA7B2" stroke-width="1"/>
+  <rect x="80" y="222" width="380" height="12" rx="3" fill="#8C9BA8"/>
+  <rect x="100" y="234" width="8" height="38" fill="#8C9BA8"/><rect x="430" y="234" width="8" height="38" fill="#8C9BA8"/>
+  <circle cx="104" cy="277" r="8" fill="#4E5B67"/><circle cx="434" cy="277" r="8" fill="#4E5B67"/>
+  <rect x="200" y="200" width="262" height="22" rx="6" fill="#DCE6EE" stroke="#B7C6D2"/>
+  <path d="M 200 200 L 118 152 L 107 171 L 200 222 Z" fill="#DCE6EE" stroke="#B7C6D2"/>
+  <path d="M 200 222 L 120 222" stroke="#C77B17" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M 150 222 A 50 50 0 0 1 157 197" fill="none" stroke="#C77B17" stroke-width="2"/>
+  <path d="M 145 150 L 200 182 L 440 182 C 452 182, 455 200, 442 202 L 200 202 L 140 170 Z" fill="#9EC5E0" stroke="#7FA9C6"/>
+  <circle cx="132" cy="138" r="18" fill="#F4D6C6" stroke="#D3A188"/><path d="M 118 128 C 122 116, 140 114, 148 126" fill="none" stroke="#4A3B33" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 176 172 L 284 186" stroke="#F4D6C6" stroke-width="9" stroke-linecap="round"/><rect x="272" y="179" width="14" height="14" rx="2" fill="#F2E6C8" stroke="#C9B68F"/>
+  <path d="M 286 192 L 300 222" stroke="#C9B68F" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <path d="M 104 134 L 120 142" stroke="#1F6FB8" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 122 132 C 140 100, 178 66, 210 60" fill="none" stroke="#2D8A66" stroke-width="2"/>
+  ${lbls.map(lab).join('')}</svg>`;
+}
+function pumpSvg(){
+  return `<svg viewBox="0 0 380 150" role="img" aria-label="เครื่องหยดยาแก้ปวดและยานอนหลับต่อเข้าหลอดเลือดดำ">
+  <rect x="6" y="8" width="170" height="56" rx="8" fill="#fff" stroke="#4E5B67" stroke-width="1.5"/><rect x="16" y="26" width="104" height="18" rx="3" fill="#FCEBD4" stroke="#C77B17"/><rect x="120" y="31" width="22" height="8" fill="#C77B17"/><rect x="146" y="20" width="22" height="14" rx="2" fill="#0E2230"/>
+  <text x="20" y="22" class="lbl" style="font-size:12px">ยาแก้ปวด</text>
+  <rect x="6" y="84" width="170" height="56" rx="8" fill="#fff" stroke="#4E5B67" stroke-width="1.5"/><rect x="16" y="102" width="104" height="18" rx="3" fill="#DCEBF8" stroke="#1F6FB8"/><rect x="120" y="107" width="22" height="8" fill="#1F6FB8"/><rect x="146" y="96" width="22" height="14" rx="2" fill="#0E2230"/>
+  <text x="20" y="98" class="lbl" style="font-size:12px">ยานอนหลับ</text>
+  <path d="M 176 36 C 210 36, 220 76, 248 78" fill="none" stroke="#C77B17" stroke-width="2.5"/><path d="M 176 112 C 210 112, 220 80, 248 80" fill="none" stroke="#1F6FB8" stroke-width="2.5"/>
+  <path d="M 248 79 L 286 79" stroke="#7D8C99" stroke-width="3"/>
+  <rect x="270" y="62" width="110" height="34" rx="16" fill="#F4D6C6" stroke="#D3A188"/><rect x="282" y="70" width="20" height="18" rx="3" fill="#fff" stroke="#9AA7B2"/>
+  <text x="325" y="118" text-anchor="middle" class="lbl" style="font-size:12px">หลอดเลือดดำที่แขน</text></svg>`;
+}
+function face(k){
+  const eyes={ok:'<path d="M 26 36 Q 32 32 38 36 M 46 36 Q 52 32 58 36" stroke="#4A3B33" stroke-width="2.5" fill="none"/>',
+    tense:'<path d="M 24 28 L 38 32 M 60 28 L 46 32" stroke="#4A3B33" stroke-width="3"/><circle cx="32" cy="38" r="2.5" fill="#4A3B33"/><circle cx="52" cy="38" r="2.5" fill="#4A3B33"/>',
+    grim:'<path d="M 24 28 L 38 33 M 60 28 L 46 33" stroke="#4A3B33" stroke-width="3"/><path d="M 26 38 L 36 40 L 26 42 M 58 38 L 48 40 L 58 42" stroke="#4A3B33" stroke-width="2.5" fill="none"/><path d="M 30 48 Q 34 46 36 50 M 48 50 Q 50 46 54 48" stroke="#C9716B" stroke-width="2" fill="none"/>'}[k];
+  return `<svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="44" r="34" fill="#F4D6C6" stroke="#C99A7E" stroke-width="2"/>${eyes}<path d="M 34 60 L 76 60" stroke="#1F6FB8" stroke-width="6" stroke-linecap="round"/><path d="M 32 56 Q 34 64 38 62" stroke="#C9716B" stroke-width="2" fill="none"/></svg>`;
+}
+function ngSvg(){
+  const {lab}=mk('screen');
+  const lbls=[{t:'ถุงอาหารเหลว',a:[284,40],p:[316,96],s:'end'},{t:'สายให้อาหารทางจมูก',a:[154,150],p:[20,150],s:'start'},{t:'กระเพาะอาหาร',a:[214,272],p:[316,310],s:'end'},{t:'ท่อช่วยหายใจ',a:[146,82],p:[20,92],s:'start'}];
+  return `<svg viewBox="0 0 320 330" role="img" aria-label="สายให้อาหารทางจมูกลงสู่กระเพาะอาหาร">
+  <path d="M 120 100 L 180 100 C 230 105, 270 115, 280 140 L 270 330 L 30 330 L 20 140 C 30 115, 70 105, 120 100 Z" fill="#F4D6C6" stroke="#D3A188" stroke-width="2"/>
+  <rect x="132" y="88" width="36" height="20" fill="#F4D6C6"/><circle cx="150" cy="56" r="40" fill="#F4D6C6" stroke="#D3A188" stroke-width="2"/>
+  <path d="M 146 100 L 154 100 C 156 160, 160 210, 180 236 L 172 242 C 150 214, 146 160, 146 100 Z" fill="#E6C2A8" stroke="#C99A7E"/>
+  <path d="M 172 236 C 200 220, 240 228, 246 256 C 252 290, 220 306, 190 300 C 168 296, 160 270, 176 258 Z" fill="#E9A9A3" stroke="#C9716B"/>
+  <path d="M 140 80 L 128 84" stroke="#1F6FB8" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 156 62 C 162 70, 156 90, 150 110 C 154 170, 160 215, 204 266" fill="none" stroke="#2D8A66" stroke-width="3"/>
+  <path d="M 156 60 C 190 40, 240 30, 276 52" fill="none" stroke="#2D8A66" stroke-width="3"/>
+  <path d="M 262 8 L 300 8 C 306 8, 306 14, 306 18 L 306 52 C 306 62, 296 66, 284 66 C 272 66, 262 62, 262 52 Z" fill="#F5E6C8" stroke="#C9B68F"/>
+  <path d="M 270 30 L 298 30" stroke="#C9B68F"/>
+  ${lbls.map(lab).join('')}</svg>`;
+}
+
+/* ---------- Thoracentesis ---------- */
+const TH_ANAT=[
+ {n:1,t:'ปอดขวา',a:[140,250],p:[-55,250],s:'start'},
+ {n:2,t:'ปอดซ้าย',a:[350,230],p:[478,214],s:'end'},
+ {n:3,t:'น้ำในช่องเยื่อหุ้มปอด',a:[150,396],p:[110,532],s:'start'},
+ {n:4,t:'หัวใจ',a:[292,340],p:[478,330],s:'end'},
+ {n:5,t:'กระบังลม',a:[330,418],p:[478,420],s:'end'},
+ {n:6,t:'ตับ',a:[180,470],p:[-55,476],s:'start'},
+ {n:7,t:'ม้าม',a:[400,470],p:[478,505],s:'end'},
+ {n:8,t:'ซี่โครง',a:[120,165],p:[-55,140],s:'start'},
+ {n:9,t:'ตำแหน่งเจาะ',a:[36,390],p:[-55,345],s:'start',show:'2-6'},
+ {n:10,t:'เข็มหรือสายระบาย',a:[70,397],p:[-55,440],s:'start',show:'4-6'},
+ {n:11,t:'ขวดรองรับ',a:[-32,525],p:[20,568],s:'start',show:'5-6'}
+];
+function thoraSvg(mode,ps=5){
+  const {L,D,labels,open}=mk(mode,ps);
+  let ribs='';for(let i=0;i<10;i++){const y=96+i*34;ribs+=`<path d="M 232 ${y} C 180 ${y-8}, 98 ${y+2}, 64 ${y+34}" /><path d="M 248 ${y} C 300 ${y-8}, 382 ${y+2}, 416 ${y+34}"/>`;}
+  return open('-60 0 540 580','ภาพทรวงอกด้านหน้าแสดงน้ำในช่องเยื่อหุ้มปอดและตำแหน่งเจาะ')+`
+  <path d="M 205 18 L 275 18 L 282 56 C 340 62, 412 72, 442 112 L 452 330 C 444 420, 434 480, 426 545 L 54 545 C 46 480, 36 420, 28 330 L 38 112 C 68 72, 140 62, 198 56 Z" fill="#F4D6C6" stroke="#D3A188" stroke-width="2"/>
+  <path d="M 58 446 C 110 414, 210 418, 300 442 C 292 484, 200 504, 78 494 Z" fill="#A7524A"/>
+  <path d="M 382 448 C 408 442, 428 462, 420 492 C 402 502, 382 492, 374 472 Z" fill="#8E4A6A"/>
+  <path d="M 228 100 C 165 92, 85 135, 70 250 C 62 335, 72 400, 84 432 C 140 418, 190 412, 226 420 C 232 330, 234 200, 228 100 Z" fill="#E8F1F8" stroke="#8AA9C2" stroke-dasharray="4 3"/>
+  <path d="M 252 100 C 315 92, 395 135, 410 250 C 418 335, 408 400, 396 432 C 340 418, 290 412, 254 420 C 248 330, 246 200, 252 100 Z" fill="#E8F1F8" stroke="#8AA9C2" stroke-dasharray="4 3"/>
+  <path d="M 225 106 C 170 100, 95 142, 82 250 C 75 330, 82 392, 92 420 C 140 408, 190 404, 222 412 C 228 330, 230 200, 225 106 Z" fill="#F2B8B5" stroke="#C9716B"/>
+  <path d="M 255 106 C 310 100, 385 142, 398 250 C 405 330, 398 392, 388 420 C 345 408, 300 404, 262 410 C 296 372, 292 300, 262 292 C 258 220, 256 160, 255 106 Z" fill="#F2B8B5" stroke="#C9716B"/>
+  ${L('1-4',`<path d="M 70 318 C 70 370, 76 410, 84 432 C 140 418, 190 412, 226 420 L 226 372 C 180 350, 120 326, 70 318 Z" fill="rgba(70,145,215,.6)" stroke="#2F7FD1"/>`)}
+  ${L('5-6',`<path d="M 76 392 C 77 410, 80 422, 84 432 C 140 418, 190 412, 226 420 L 226 408 C 180 398, 120 390, 76 392 Z" fill="rgba(70,145,215,.6)" stroke="#2F7FD1"/>`)}
+  <path d="M 236 292 C 262 272, 322 282, 332 322 C 338 362, 304 398, 262 402 C 234 397, 224 352, 236 292 Z" fill="#D8605A"/>
+  <path d="M 233 18 L 247 18 L 247 140 C 262 150, 280 160, 292 172 L 286 180 C 272 168, 256 158, 240 150 C 224 158, 208 168, 194 180 L 188 172 C 200 160, 218 150, 233 140 Z" fill="#F7E3DF" stroke="#D8A49B"/>
+  <path d="M 70 438 C 110 402, 200 408, 240 428 C 280 408, 370 402, 410 438" fill="none" stroke="#B45F57" stroke-width="4"/>
+  <g fill="none" stroke="#E2CDB3" stroke-width="6" stroke-linecap="round" opacity=".9">${ribs}</g>
+  <rect x="231" y="96" width="18" height="190" rx="8" fill="#EBDCC6" stroke="#D6C1A5"/>
+  ${L('2',`<path d="M 30 380 L 140 345 L 140 440 L 30 400 Z" fill="rgba(255,226,120,.35)"/><rect x="4" y="370" width="26" height="40" rx="6" fill="#5B6B78"/><path d="M -40 390 L 4 390" stroke="#5B6B78" stroke-width="4"/>`)}
+  ${L('2-6',`<circle cx="36" cy="390" r="8" fill="none" stroke="#C77B17" stroke-width="2.5"/><path d="M 28 390 L 44 390 M 36 382 L 36 398" stroke="#C77B17" stroke-width="2"/>`)}
+  ${L('3',`<rect x="-56" y="383" width="44" height="14" rx="2" fill="#fff" stroke="#4E5B67"/><rect x="-60" y="386" width="6" height="8" fill="#4E5B67"/><path ${D} d="M -12 390 L 52 392" stroke="#4E5B67" stroke-width="2"/>`)}
+  ${L('4-6',`<path ${D} d="M -20 392 L 106 404" stroke="#1F6FB8" stroke-width="5" stroke-linecap="round"/><rect x="-34" y="385" width="14" height="14" rx="2" fill="#EAEFF3" stroke="#4E5B67"/>`)}
+  ${L('5-6',`<path ${D} d="M -34 392 C -52 420, -52 470, -32 492" fill="none" stroke="#7FA9C6" stroke-width="4"/><rect x="-58" y="492" width="52" height="60" rx="6" fill="#fff" stroke="#4E5B67"/><rect x="-56" y="522" width="48" height="28" rx="4" fill="rgba(70,145,215,.6)"/>`)}
+  ${L('6',`<rect x="26" y="380" width="16" height="20" rx="2" fill="#fff" stroke="#8C9BA8"/>`)}
+  ${labels(TH_ANAT)}</svg>`;
+}
+function thoraScene(){
+  return `<svg viewBox="0 0 300 200" role="img" aria-label="ผู้ป่วยนั่งโน้มตัวบนโต๊ะคร่อมเตียง แพทย์ทำหัตถการจากด้านหลัง">
+  <rect x="20" y="150" width="170" height="14" rx="4" fill="#CBD6DF"/><rect x="30" y="164" width="6" height="30" fill="#8C9BA8"/><rect x="176" y="164" width="6" height="30" fill="#8C9BA8"/>
+  <rect x="198" y="100" width="94" height="8" rx="3" fill="#8C9BA8"/><rect x="270" y="108" width="6" height="86" fill="#8C9BA8"/>
+  <ellipse cx="236" cy="93" rx="32" ry="10" fill="#fff" stroke="#B7C6D2"/>
+  <path d="M 168 150 L 206 150 L 212 192 L 198 192 L 192 162 L 168 162 Z" fill="#9EC5E0"/>
+  <path d="M 200 82 C 184 94, 164 124, 160 150 L 206 150 C 210 126, 214 100, 222 88 Z" fill="#9EC5E0" stroke="#7FA9C6"/>
+  <circle cx="226" cy="70" r="14" fill="#F4D6C6" stroke="#D3A188"/>
+  <path d="M 212 92 L 246 96" stroke="#F4D6C6" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 168 122 L 180 132 M 180 122 L 168 132" stroke="#C77B17" stroke-width="2.5"/>
+  <rect x="74" y="74" width="44" height="82" rx="14" fill="#3E8E9E"/>
+  <path d="M 80 156 L 80 194 M 110 156 L 110 194" stroke="#3E8E9E" stroke-width="12"/>
+  <circle cx="96" cy="58" r="14" fill="#F4D6C6" stroke="#D3A188"/><path d="M 82 52 C 84 40, 108 40, 110 52 Z" fill="#7FBFCB"/><rect x="88" y="60" width="18" height="9" rx="3" fill="#E6F2F4"/>
+  <path d="M 112 96 L 160 124" stroke="#3E8E9E" stroke-width="9" stroke-linecap="round"/><path d="M 160 124 L 170 127" stroke="#F4F7FA" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 168 126 L 175 128" stroke="#4E5B67" stroke-width="1.5"/></svg>`;
+}
+function ribInset(){
+  return `<svg viewBox="0 0 220 170" role="img" aria-label="ภาพตัดผนังทรวงอกแสดงเข็มผ่านเหนือขอบบนของซี่โครงซี่ล่าง">
+  <rect x="0" y="0" width="100" height="170" fill="rgba(70,145,215,.55)"/><line x1="100" y1="0" x2="100" y2="170" stroke="#8AA9C2" stroke-width="2"/>
+  <rect x="100" y="0" width="70" height="170" fill="#D99A8E"/><rect x="170" y="0" width="24" height="170" fill="#F4D6C6"/>
+  <ellipse cx="135" cy="35" rx="26" ry="20" fill="#EFE3D3" stroke="#C9B08F"/><ellipse cx="135" cy="138" rx="26" ry="20" fill="#EFE3D3" stroke="#C9B08F"/>
+  <circle cx="124" cy="62" r="5" fill="#3E6FD1"/><circle cx="136" cy="64" r="5" fill="#D23B3B"/><circle cx="147" cy="62" r="4" fill="#F2C230"/>
+  <path d="M 220 106 L 56 106" stroke="#4E5B67" stroke-width="3"/><path d="M 60 102 L 50 106 L 60 110 Z" fill="#4E5B67"/>
+  <text x="50" y="20" text-anchor="middle" font-family="Arial" font-size="11" fill="#fff">ช่องปอด</text></svg>`;
+}
+
+/* ---------- CPR ---------- */
+const CPR_ANAT=[
+ {n:1,t:'กระดูกหน้าอก',a:[240,190],p:[472,140],s:'end'},
+ {n:2,t:'หัวใจ',a:[300,242],p:[472,205],s:'end'},
+ {n:3,t:'ซี่โครง',a:[150,212],p:[8,212],s:'start'},
+ {n:4,t:'ตับ',a:[180,350],p:[8,400],s:'start'},
+ {n:5,t:'ม้าม',a:[334,350],p:[472,395],s:'end'},
+ {n:6,t:'วางมือครึ่งล่างของกระดูกหน้าอก',a:[222,262],p:[8,262],s:'start',show:'2-6'},
+ {n:7,t:'หน้ากากและถุงลมช่วยหายใจ',a:[240,24],p:[8,32],s:'start',show:'3-5'},
+ {n:8,t:'แผ่นกระตุกไฟฟ้า',a:[165,159],p:[8,128],s:'start',show:'4-6'},
+ {n:9,t:'ให้ยาทางหลอดเลือดดำ',a:[100,350],p:[8,330],s:'start',show:'5-6'},
+ {n:10,t:'เครื่องกระตุกไฟฟ้า',a:[425,560],p:[472,508],s:'end',show:'4-6'}
+];
+function cprSvg(mode,ps=4){
+  const {L,D,labels,open}=mk(mode,ps);
+  const mir=d=>d.replace(/(-?\d+\.?\d*) (-?\d+\.?\d*)/g,(m,x,y)=>`${480-+x} ${y}`);
+  let ribs='';for(let i=0;i<8;i++){const y=160+i*24;ribs+=`<path d="M 234 ${y} C 200 ${y-4}, 150 ${y+2}, 122 ${y+22}"/><path d="M 246 ${y} C 280 ${y-4}, 330 ${y+2}, 358 ${y+22}"/>`;}
+  const armL='M 112 160 C 96 170, 88 250, 90 330 C 92 380, 92 420, 100 450 C 104 462, 118 462, 120 450 C 116 410, 114 330, 118 262 Z';
+  const lungL='M 230 150 C 180 148, 140 180, 135 260 C 132 300, 136 320, 140 330 C 180 318, 215 316, 230 320 Z';
+  return open('0 0 480 600','ภาพผู้ป่วยนอนหงายมองจากด้านบน แสดงตำแหน่งกดหน้าอกและแผ่นกระตุกไฟฟ้า')+`
+  <rect x="60" y="10" width="360" height="585" rx="18" fill="#DCE6EE" stroke="#B7C6D2"/>
+  ${L('2-6',`<rect x="108" y="112" width="264" height="370" rx="6" fill="#6F7F8C" opacity=".55"/>`)}
+  <path d="${armL}" fill="#F4D6C6" stroke="#D3A188"/><path d="${mir(armL)}" fill="#F4D6C6" stroke="#D3A188"/>
+  <rect x="222" y="104" width="36" height="22" fill="#F4D6C6"/>
+  <path d="M 200 120 L 280 120 C 330 124, 362 132, 368 162 L 352 470 L 128 470 L 112 162 C 118 132, 150 124, 200 120 Z" fill="#F4D6C6" stroke="#D3A188" stroke-width="2"/>
+  <circle cx="240" cy="72" r="40" fill="#F4D6C6" stroke="#D3A188" stroke-width="2"/><path d="M 200 66 C 202 30, 278 30, 280 66 C 268 48, 212 48, 200 66 Z" fill="#4A3B33"/>
+  <path d="M 222 74 L 232 74 M 248 74 L 258 74" stroke="#4A3B33" stroke-width="2"/>
+  <path d="${lungL}" fill="#F2B8B5" opacity=".55"/><path d="${mir(lungL)}" fill="#F2B8B5" opacity=".55"/>
+  <path d="M 132 330 C 170 318, 230 322, 270 336 C 262 366, 200 380, 140 372 Z" fill="#A7524A" opacity=".8"/>
+  <path d="M 318 332 C 340 328, 356 344, 350 366 C 334 372, 318 364, 312 350 Z" fill="#8E4A6A" opacity=".85"/>
+  <path d="M 236 220 C 262 204, 312 212, 318 248 C 322 282, 292 306, 258 308 C 236 304, 226 262, 236 220 Z" fill="#D8605A" opacity=".9"/>
+  <g fill="none" stroke="#E3CDB6" stroke-width="5" stroke-linecap="round" opacity=".9">${ribs}</g>
+  <rect x="230" y="150" width="20" height="150" rx="8" fill="#EAD9C3" stroke="#D6C1A5"/><path d="M 234 300 L 246 300 L 240 314 Z" fill="#EAD9C3"/>
+  ${L('4-6',`<path ${D} d="M 190 160 C 300 200, 420 400, 420 524" fill="none" stroke="#4E5B67" stroke-width="2.5"/><path ${D} d="M 333 322 C 360 400, 410 460, 430 524" fill="none" stroke="#4E5B67" stroke-width="2.5"/><rect x="140" y="140" width="50" height="38" rx="6" fill="#fff" stroke="#4E5B67" stroke-width="1.5"/><rect x="316" y="270" width="40" height="52" rx="6" fill="#fff" stroke="#4E5B67" stroke-width="1.5"/><rect x="384" y="524" width="88" height="70" rx="8" fill="#F2C230" stroke="#8A6D00"/><path d="M 432 534 L 416 562 L 430 562 L 420 588 L 446 554 L 432 554 L 442 534 Z" fill="#14304A"/>`)}
+  ${L('2-6',`<path d="M 270 258 L 470 236" stroke="#3E8E9E" stroke-width="26" stroke-linecap="round"/><ellipse cx="240" cy="262" rx="34" ry="26" fill="#E8B79E" stroke="#B98568"/><ellipse cx="240" cy="256" rx="28" ry="20" fill="#F0C6AE" stroke="#B98568"/><circle cx="240" cy="262" r="44" fill="none" stroke="#C77B17" stroke-width="2" stroke-dasharray="5 4"/>`)}
+  ${L('3-5',`<path d="M 214 92 C 214 72, 266 72, 266 92 C 266 112, 214 112, 214 92 Z" fill="rgba(150,200,230,.7)" stroke="#3E93C4" stroke-width="2"/><rect x="234" y="34" width="12" height="44" fill="#3E93C4"/><ellipse cx="240" cy="24" rx="26" ry="16" fill="#7FB8D9" stroke="#3E93C4"/>`)}
+  ${L('6',`<path d="M 246 98 C 300 70, 340 40, 400 30" fill="none" stroke="#9AA7B2" stroke-width="8" stroke-linecap="round" stroke-dasharray="3 2"/><rect x="396" y="10" width="76" height="46" rx="6" fill="#fff" stroke="#4E5B67"/><polyline points="404,44 416,44 420,26 426,44 438,44 442,26 448,44 464,44" fill="none" stroke="#2D8A66" stroke-width="2"/>`)}
+  ${L('5-6',`<rect x="10" y="120" width="40" height="60" rx="8" fill="rgba(200,230,250,.9)" stroke="#7FA9C6"/><path ${D} d="M 30 180 C 40 240, 70 320, 100 350" fill="none" stroke="#7FA9C6" stroke-width="2.5"/><rect x="94" y="344" width="14" height="12" rx="2" fill="#fff" stroke="#4E5B67"/><rect x="34" y="372" width="50" height="12" rx="2" fill="#fff" stroke="#C77B17" transform="rotate(-30 59 378)"/>`)}
+  ${labels(CPR_ANAT)}</svg>`;
+}
+function ecg(kind){
+  const pts=[];const vf=x=>60+Math.sin(x*.35)*16+Math.sin(x*.13)*9;
+  const beat=x=>[[x,60],[x+8,60],[x+11,55],[x+14,60],[x+18,60],[x+20,65],[x+23,20],[x+26,74],[x+29,60],[x+38,60],[x+44,51],[x+50,60]];
+  if(kind==='vf')for(let x=8;x<=212;x+=4)pts.push([x,vf(x)]);
+  if(kind==='sinus')for(let x=8;x<170;x+=56)pts.push(...beat(x));
+  if(kind==='shock'){for(let x=8;x<=80;x+=4)pts.push([x,vf(x)]);pts.push([84,8],[88,104],[94,60]);for(let x=100;x<200;x+=56)pts.push(...beat(x));}
+  return `<svg viewBox="0 0 220 110" role="img" aria-label="คลื่นไฟฟ้าหัวใจ"><rect width="220" height="110" rx="10" fill="#0E2230"/>
+  <polyline points="${pts.map(p=>p[0]+','+p[1].toFixed(1)).join(' ')}" fill="none" stroke="#3DDC97" stroke-width="2.5" stroke-linejoin="round"/>
+  ${kind==='shock'?'<path d="M 92 6 L 82 26 L 90 26 L 84 42 L 100 20 L 92 20 L 98 6 Z" fill="#F2C230"/>':''}</svg>`;
+}
+function compressInset(){
+  return `<svg viewBox="0 0 220 150" role="img" aria-label="มองจากด้านข้าง การกดหน้าอกบีบหัวใจระหว่างกระดูกหน้าอกกับกระดูกสันหลัง">
+  <rect width="220" height="150" fill="#F8FBFD"/>
+  <rect x="20" y="118" width="180" height="20" rx="6" fill="#EFE3D3" stroke="#D6C3AA"/>
+  <path d="M 50 118 L 50 138 M 80 118 L 80 138 M 110 118 L 110 138 M 140 118 L 140 138 M 170 118 L 170 138" stroke="#D6C3AA"/>
+  <ellipse class="squash" cx="110" cy="96" rx="34" ry="21" fill="#D8605A"/>
+  <g class="compress"><path d="M 16 80 C 50 50, 170 50, 204 80" fill="none" stroke="#F4D6C6" stroke-width="12"/><rect x="94" y="50" width="32" height="10" rx="4" fill="#EAD9C3"/>
+  <ellipse cx="110" cy="40" rx="26" ry="11" fill="#E8B79E" stroke="#B98568"/><rect x="98" y="0" width="24" height="30" fill="#3E8E9E"/></g>
+  <path d="M 180 22 L 180 62" stroke="#C77B17" stroke-width="2"/><path d="M 175 56 L 180 66 L 185 56 Z" fill="#C77B17"/>
+  <text x="186" y="44" font-family="Arial" font-size="11" fill="#14304A">5–6</text><text x="186" y="57" font-family="Arial" font-size="10" fill="#14304A">cm</text></svg>`;
+}
+
+/* ================= content ================= */
+const PROG={good:'ดี: คาดว่ามีโอกาสฟื้นตัวจากหัตถการและโรคปัจจุบัน',fair:'ปานกลาง: ขึ้นกับการตอบสนองต่อการรักษาในช่วงไม่กี่วันแรก',guarded:'สงวนท่าที: อาการวิกฤต ผลการรักษายังไม่แน่นอน',poor:'ไม่ดี: มีความเสี่ยงสูงต่อการเสียชีวิตหรือการพึ่งพาเครื่องมือระยะยาว ควรหารือเป้าหมายการรักษาร่วมกัน'};
+const FREQ={3:'บ่อย',2:'น้อย',1:'น้อยมาก'};
+const W=(h,p)=>`<div class="worry"><h4>${h}</h4><p>${p}</p></div>`;
+const DR=(k,h)=>`<div class="dr-box" data-dr="${k}"><h4>${h}</h4><div class="drv empty">แพทย์ยังไม่ได้ระบุในขั้นตอนที่ 1</div></div>`;
+const FIG=(svg,cap)=>`<figure class="fig"><div class="plate">${svg}</div><figcaption>${cap}</figcaption></figure>`;
+function durHTML(rows,axis,mark){return `<div class="dur">${rows.map(r=>`<div class="r"><span>${r[0]}</span><div class="track"><div class="bar" style="left:${r[1]}%;width:${r[2]}%"></div>${mark!=null&&r[3]?`<div class="mark" style="left:${mark}%"></div>`:''}</div></div>`).join('')}<div class="axis">${axis.map(a=>`<span>${a}</span>`).join('')}</div></div>`;}
+const ACK_ASK='มีโอกาสซักถาม และได้รับคำตอบจนเป็นที่พอใจ';
+const ACK_CHANGE='ทราบว่าสามารถเปลี่ยนแปลงหรือถอนความยินยอมได้ และผู้ป่วยจะยังได้รับการดูแลที่เหมาะสมต่อไป';
+
+const PROCS={
+ett:{
+  key:'ett',title:'การใส่ท่อช่วยหายใจ',en:'Endotracheal intubation and mechanical ventilation',code:'ETT-CONSENT',
+  blurb:'อธิบายการใส่ท่อ ตำแหน่งท่อในทางเดินหายใจ การดูแลที่เตียงไอซียู ยาแก้ปวด ยานอนหลับ อาหาร และการหย่าเครื่องช่วยหายใจ',
+  svg:ettSvg,printStep:5,labels:ETT_ANAT,plateCap:'ภาพตัดด้านข้างของศีรษะ ลำคอ และหลอดลม',
+  illTitle:'ใส่ท่อช่วยหายใจทำอย่างไร',careTitle:'ระหว่างใส่ท่อ ผู้ป่วยจะได้รับการดูแลอย่างไร',
+  indLabel:'เหตุผลที่จำเป็นต้องใส่ท่อช่วยหายใจ',
+  ind:['ภาวะหายใจล้มเหลว ออกซิเจนในเลือดต่ำแม้ให้ออกซิเจนเต็มที่','ร่างกายขับคาร์บอนไดออกไซด์ไม่ได้ หายใจเหนื่อยจนกล้ามเนื้อหายใจล้า','ระดับความรู้สึกตัวลดลง ป้องกันการสำลักเองไม่ได้','ภาวะช็อก ระบบไหลเวียนโลหิตล้มเหลว','ทางเดินหายใจอุดกั้นหรือบวม','เพื่อการผ่าตัดหรือหัตถการที่ต้องดมยาสลบ'],
+  extra:[],
+  course:{label:'ระยะเวลาที่คาดว่าจะใส่ท่อ',opts:{short:['สั้น ภายในประมาณ 48 ชั่วโมง','คาดว่าใช้เวลาสั้น ภายในประมาณ 48 ชั่วโมง'],mid:['ประมาณ 3–7 วัน','คาดว่าประมาณ 3–7 วัน'],long:['นานกว่า 1 สัปดาห์','คาดว่านานกว่า 1 สัปดาห์ หากเกินประมาณ 10–14 วัน อาจหารือเรื่องการเจาะคอ'],unk:['ยังประเมินไม่ได้','ยังประเมินไม่ได้ในขณะนี้ แพทย์จะประเมินและแจ้งเป็นระยะ']}},
+  steps:[
+   {t:'ทางเดินหายใจปกติ',d:'อากาศเข้าทางจมูกและปาก ผ่านลำคอ ลงสู่กล่องเสียงที่มีสายเสียง แล้วเข้าหลอดลมไปยังปอดทั้งสองข้าง',p:['หลอดอาหารอยู่ด้านหลังหลอดลม','ฝาปิดกล่องเสียงช่วยกันอาหารและน้ำลายไม่ให้ตกลงหลอดลม','เมื่อผู้ป่วยหายใจเองไม่พอ หรือป้องกันการสำลักเองไม่ได้ จึงต้องใส่ท่อช่วย']},
+   {t:'เตรียมก่อนใส่ท่อ',d:'ทีมเตรียมยา อุปกรณ์ และให้ออกซิเจนก่อนเสมอ',p:['ให้ออกซิเจนเข้มข้นผ่านหน้ากาก 3–5 นาที เพื่อเก็บออกซิเจนสำรองไว้ในปอด','ให้ยานอนหลับและยาแก้ปวดทางหลอดเลือด ผู้ป่วยจะหลับและไม่รู้สึกเจ็บขณะใส่ท่อ','บางรายให้ยาคลายกล้ามเนื้อร่วมด้วย เพื่อให้ใส่ท่อได้เร็วและปลอดภัย','ติดเครื่องวัดออกซิเจน ความดัน และคลื่นหัวใจตลอดเวลา']},
+   {t:'ส่องดูกล่องเสียง',d:'แพทย์ใช้อุปกรณ์ส่องกล่องเสียง (laryngoscope หรือกล้องวิดีโอ) ยกโคนลิ้นขึ้นเพื่อมองเห็นสายเสียง',p:['ขั้นตอนนี้ใช้เวลาเพียงไม่กี่นาที','ผู้ป่วยหลับอยู่ ไม่รู้สึกตัว']},
+   {t:'สอดท่อผ่านสายเสียง',d:'ท่อพลาสติกนุ่มขนาดประมาณนิ้วก้อย สอดผ่านปากลงไประหว่างสายเสียง เข้าสู่หลอดลม',p:['เพราะท่อผ่านระหว่างสายเสียง ผู้ป่วยจึงพูดไม่ได้ชั่วคราว เสียงจะกลับมาเมื่อถอดท่อ','ท่อไม่ได้อยู่ในหลอดอาหาร ผู้ป่วยจึงได้อาหารทางสายยางแทน']},
+   {t:'ปั๊มลูกโป่งและตรวจตำแหน่ง',d:'ปั๊มลมเข้าลูกโป่งเล็กรอบปลายท่อ (cuff) เพื่อกันลมรั่วและกันน้ำลายไหลลงปอด แล้วตรวจยืนยันตำแหน่งท่อ',p:['ฟังเสียงลมเข้าปอดทั้งสองข้าง และวัดคาร์บอนไดออกไซด์ในลมหายใจออก','ถ่ายเอกซเรย์ทรวงอก ปลายท่อควรอยู่เหนือจุดแยกหลอดลมประมาณ 3–5 ซม.','ยึดท่อไว้ที่มุมปาก ผู้ใหญ่มักอยู่ที่ระดับประมาณ 20–23 ซม. ที่ฟันหน้า']},
+   {t:'ต่อเครื่องช่วยหายใจ',d:'เครื่องช่วยหายใจส่งลมและออกซิเจนเข้าปอดตามจังหวะ ให้ร่างกายได้พักขณะแพทย์รักษาสาเหตุ',p:['ผู้ป่วยยังหายใจเองร่วมกับเครื่องได้ เครื่องช่วยเสริมในส่วนที่ไม่พอ','ท่อและเครื่องช่วยหายใจไม่ใช่การรักษาโรค แต่เป็นการพยุงชีวิตระหว่างรักษาสาเหตุ']}],
+  inset:s=>s>=3&&s<=5?{html:glottis(s>=4),text:s===3?'ภาพที่แพทย์มองเห็นผ่านอุปกรณ์ส่องกล่องเสียง สายเสียงสองข้างเรียงเป็นรูปตัววี ช่องตรงกลางคือทางเข้าหลอดลม':'ท่อ (สีน้ำเงิน) ผ่านช่องระหว่างสายเสียงลงสู่หลอดลม'}:null,
+  risks:[
+   {g:'ขณะใส่ท่อ',items:[['ออกซิเจนในเลือดต่ำชั่วคราว',3,'ให้ออกซิเจนล่วงหน้า ช่วยหายใจด้วยถุงลม'],['ความดันโลหิตต่ำหลังได้ยานอนหลับ',3,'ให้สารน้ำ ยาเพิ่มความดัน'],['ฟัน ริมฝีปาก หรือเหงือกบาดเจ็บ',2,'ใช้อุปกรณ์อย่างระมัดระวัง แจ้งญาติถ้ามีฟันโยก'],['สำลักน้ำย่อยหรืออาหารลงปอด',2,'งดน้ำงดอาหาร ดูดเสมหะ ใส่ท่ออย่างรวดเร็ว'],['ท่อเข้าหลอดอาหารหรือลึกเกินไป',2,'ตรวจด้วยเครื่องวัดคาร์บอนไดออกไซด์และเอกซเรย์ แก้ไขได้ทันที'],['หัวใจเต้นผิดจังหวะหรือหยุดเต้น',1,'พบในผู้ป่วยวิกฤตมาก ทีมพร้อมช่วยฟื้นคืนชีพ']]},
+   {g:'ระหว่างใช้เครื่องช่วยหายใจ',items:[['ปอดอักเสบจากเครื่องช่วยหายใจ',2,'ดูแลช่องปาก ยกหัวเตียง ลดยานอนหลับให้เร็วที่สุด'],['สับสนเฉียบพลัน (delirium)',3,'ปลุกทุกวัน ให้ญาติเยี่ยม จัดสิ่งแวดล้อมให้คุ้นเคย'],['กล้ามเนื้ออ่อนแรงจากการนอนนาน',2,'ทำกายภาพบำบัดตั้งแต่เนิ่น ๆ'],['แผลกดทับ แผลที่มุมปาก',2,'พลิกตัว เปลี่ยนตำแหน่งยึดท่อ'],['ลมรั่วในช่องเยื่อหุ้มปอด',1,'ปรับเครื่อง ใส่สายระบายลมถ้าจำเป็น']]},
+   {g:'หลังถอดท่อ',items:[['เจ็บคอ เสียงแหบ',3,'มักหายใน 1–3 วัน'],['กล่องเสียงบวม หายใจเสียงดัง',1,'พ่นยา ให้ยาลดบวม'],['ต้องใส่ท่อกลับ',2,'เฝ้าระวังใกล้ชิด 48–72 ชั่วโมง']]}],
+  riskFig:{step:5,cap:'ตำแหน่งที่อาจได้รับผลกระทบจากการใส่ท่อช่วยหายใจ',marks:[
+   {n:1,a:[147,232],t:'ฟัน ริมฝีปาก มุมปาก',f:'พบได้น้อย'},{n:2,a:[306,352],t:'สายเสียงบวม เสียงแหบหลังถอดท่อ',f:'เสียงแหบพบได้บ่อย บวมรุนแรงพบได้น้อยมาก'},
+   {n:3,a:[352,420],t:'ท่อเข้าหลอดอาหารโดยไม่ตั้งใจ',f:'ตรวจพบและแก้ไขได้ทันที'},{n:4,a:[300,600],t:'สำลักลงปอด ปอดอักเสบ',f:'พบได้น้อย'}]},
+  pdfCare:[['ความเจ็บปวด','ให้ยาแก้ปวดเป็นอันดับแรก ประเมินความปวดเป็นระยะด้วยแบบประเมินสำหรับผู้ที่พูดไม่ได้ และให้ยาเพิ่มก่อนดูดเสมหะหรือพลิกตัว'],['ยานอนหลับ','เป้าหมายคือหลับตื้น ปลุกตื่นได้ ลดหรือหยุดยาวันละครั้งเพื่อประเมิน บางรายอาจสับสนชั่วคราว'],['การสื่อสาร','ผู้ป่วยพูดไม่ได้ชั่วคราว แต่อาจได้ยิน ใช้การพยักหน้า บีบมือ หรือเขียนแทน'],['การผูกยึดมือ','ใช้เมื่อจำเป็นเพื่อป้องกันการดึงท่อออกเอง ใช้ผ้านุ่ม และเลิกเมื่อปลอดภัย'],['อาหารและโภชนาการ','ให้อาหารเหลวทางสายยางภายใน 24–48 ชั่วโมงถ้าทำได้ ประเมินการย่อย ท้องอืด และภาวะโภชนาการทุกวัน']],
+  pdfDur:['การหย่าเครื่องช่วยหายใจและระยะเวลา','ประเมินทุกวัน เมื่อสาเหตุดีขึ้นและผู้ป่วยตื่นดี จะทดสอบให้หายใจเอง 30–120 นาที ถ้าผ่านจึงถอดท่อ และเฝ้าระวัง 48–72 ชั่วโมง ผู้ป่วยบางรายอาจต้องใส่ท่อกลับ หากใส่ท่อนานเกินประมาณ 10–14 วัน อาจหารือเรื่องการเจาะคอ'],
+  altTitle:'ทางเลือกและผลของการไม่ใส่ท่อช่วยหายใจ',
+  alt:'ทางเลือกบางกรณี ได้แก่ ออกซิเจนอัตราไหลสูงทางจมูก (HFNC) หรือเครื่องช่วยหายใจแบบหน้ากาก (NIV) ซึ่งใช้ได้เฉพาะบางภาวะ หากจำเป็นต้องใส่ท่อแต่ไม่ได้ใส่ อาจเกิดภาวะออกซิเจนต่ำรุนแรง หัวใจหยุดเต้น หรือเสียชีวิต ผู้ป่วยจะยังได้รับการดูแลที่ดีที่สุดเท่าที่ทำได้ รวมถึงการดูแลแบบประคับประคอง',
+  note:'กรณีฉุกเฉินที่เป็นอันตรายต่อชีวิตและไม่สามารถรอความยินยอมได้ แพทย์จะดำเนินการเพื่อช่วยชีวิตตามมาตรฐานวิชาชีพ',
+  acks:['ได้รับคำอธิบายเรื่องเหตุผล วิธีการ ประโยชน์ และความเสี่ยงของการใส่ท่อช่วยหายใจ ด้วยภาษาที่เข้าใจได้','ได้รับทราบทางเลือกอื่น และผลที่อาจเกิดขึ้นหากไม่ใส่ท่อช่วยหายใจ','ได้รับทราบเรื่องการระงับปวด การให้ยานอนหลับ อาหาร การหย่าเครื่องช่วยหายใจ และระยะเวลาที่คาดไว้',ACK_ASK,ACK_CHANGE],
+  decisions:[{v:'yes',label:'ยินยอมให้ใส่ท่อช่วยหายใจ',acks:true,pdf:'<b>ยินยอม</b> ให้แพทย์และทีมใส่ท่อช่วยหายใจ ใช้เครื่องช่วยหายใจ และให้ยาที่เกี่ยวข้องตามที่ได้รับคำอธิบาย'},
+   {v:'no',label:'ไม่ยินยอม',why:'เหตุผลที่ไม่ยินยอม (ถ้ามี)',ack:'รับทราบผลที่อาจเกิดขึ้นหากไม่ใส่ท่อช่วยหายใจ ซึ่งรวมถึงภาวะออกซิเจนต่ำรุนแรง หัวใจหยุดเต้น และการเสียชีวิต',pdf:'<b>ไม่ยินยอม</b> ให้ใส่ท่อช่วยหายใจ'}],
+  panels:()=>[
+   {id:'icu',label:'ที่เตียงไอซียู',html:`<h3>ภาพผู้ป่วยที่ใส่ท่อช่วยหายใจบนเตียงไอซียู</h3><p>เมื่อเข้าเยี่ยมครั้งแรก ครอบครัวมักตกใจกับสายและเครื่องมือจำนวนมาก ภาพนี้ช่วยให้รู้ล่วงหน้าว่าแต่ละอย่างคืออะไร</p>${FIG(icuBed(),'อุปกรณ์รอบเตียงผู้ป่วยที่ใส่ท่อช่วยหายใจ')}
+     ${W('เสียงเตือนของเครื่อง','เครื่องช่วยหายใจและจอติดตามสัญญาณชีพส่งเสียงเตือนบ่อย ส่วนใหญ่เป็นการแจ้งเตือนเล็กน้อย เช่น ผู้ป่วยไอหรือขยับ พยาบาลเฝ้าดูตลอดเวลา')}
+     ${W('ทำไมต้องยกหัวเตียง','การยกหัวเตียง 30–45 องศาช่วยลดการไหลย้อนของน้ำย่อยและลดปอดอักเสบจากเครื่องช่วยหายใจ')}
+     ${W('จับตัวผู้ป่วยได้ไหม','จับมือ ลูบแขน พูดคุยได้ ระวังไม่ดึงสายหรือท่อ ล้างมือก่อนและหลังสัมผัสผู้ป่วย')}`},
+   {id:'pain',label:'ความเจ็บปวด',html:`<h3>ผู้ป่วยจะเจ็บไหม</h3><p>ทีมดูแลใช้หลัก "ระงับปวดก่อน" คือให้ยาแก้ปวดเป็นอันดับแรก แล้วจึงให้ยานอนหลับเท่าที่จำเป็น เพราะความไม่สบายส่วนใหญ่มาจากความเจ็บ</p>
+     <div class="faces"><figure>${face('ok')}<figcaption>หน้าผ่อนคลาย ไม่ปวด</figcaption></figure><figure>${face('tense')}<figcaption>คิ้วขมวด เกร็ง อาจเริ่มปวด</figcaption></figure><figure>${face('grim')}<figcaption>หน้าเหยเก กัดท่อ ปวดมาก</figcaption></figure></div>
+     ${W('ขณะใส่ท่อ','ผู้ป่วยได้ยานอนหลับและยาแก้ปวดก่อนเสมอ จะไม่รู้สึกตัวและไม่จำเหตุการณ์ขณะใส่ท่อ')}
+     ${W('หลังใส่ท่อ','ท่อในลำคอทำให้ระคายเคือง ผู้ป่วยจึงได้ยาแก้ปวดกลุ่มมอร์ฟีน เช่น fentanyl หรือ morphine ทางหลอดเลือด แบบหยดต่อเนื่องหรือเป็นครั้ง ปรับขนาดตามอาการ')}
+     ${W('รู้ได้อย่างไรว่าเจ็บ ในเมื่อพูดไม่ได้','พยาบาลประเมินความปวดเป็นระยะด้วยแบบประเมินสำหรับผู้ที่พูดไม่ได้ ดูจากสีหน้า การเกร็งตัว การขยับแขนขา และการหายใจต้านเครื่อง ถ้าครอบครัวเห็นสีหน้าแบบภาพขวา บอกพยาบาลได้ทันที')}
+     ${W('ช่วงที่อาจไม่สบายตัว','การดูดเสมหะ การพลิกตัว และการทำแผล ทีมจะให้ยาแก้ปวดเพิ่มก่อนทำกิจกรรมเหล่านี้')}`},
+   {id:'sed',label:'ยานอนหลับ',html:`<h3>ยานอนหลับ ผู้ป่วยจะหลับตลอดเวลาไหม</h3><p>ยาแก้ปวดและยานอนหลับหยดเข้าหลอดเลือดดำผ่านเครื่องควบคุมการหยด ปรับขนาดได้ทีละน้อยตามการประเมินของพยาบาล</p>
+     ${FIG(pumpSvg(),'เครื่องหยดยาแก้ปวดและยานอนหลับแยกกัน ปรับขนาดได้อิสระ')}
+     <h4>ระดับการหลับที่ทีมตั้งเป้า</h4>
+     <div class="sedscale"><div>ดิ้น ดึงท่อ</div><div>กระสับกระส่าย</div><div class="tgt">ตื่น สงบ</div><div class="tgt">ง่วง ปลุกตื่น</div><div class="tgt">หลับตื้น</div><div>หลับลึก ปลุกยาก</div></div>
+     <div class="sedscale-cap"><span>ช่วงเป้าหมายของผู้ป่วยส่วนใหญ่</span></div>
+     ${W('ยาที่ใช้','เช่น propofol, midazolam หรือ dexmedetomidine ทางหลอดเลือด')}
+     ${W('ปลุกทุกวัน','แพทย์มักลดหรือหยุดยานอนหลับวันละครั้ง เพื่อดูว่าผู้ป่วยตื่นและทำตามสั่งได้ไหม ช่วงนี้ผู้ป่วยอาจลืมตา ขยับ หรือดูไม่สบายตัวชั่วคราว')}
+     ${W('ผู้ป่วยได้ยินเราไหม','หลายคนได้ยินและจำเสียงคนในครอบครัวได้ แม้จะตอบไม่ได้ พูดคุยด้วยน้ำเสียงปกติ บอกวันเวลา เล่าเรื่องที่บ้าน จับมือได้')}
+     ${W('บางรายต้องหลับลึก','ถ้าปอดแย่มาก หรือผู้ป่วยหายใจต้านเครื่องจนออกซิเจนไม่พอ แพทย์อาจให้ยานอนหลับขนาดสูงชั่วคราว และจะแจ้งเหตุผลให้ครอบครัวทราบ')}
+     ${W('อาการสับสนในไอซียู','ผู้ป่วยบางคนตื่นมาแล้วสับสน เห็นภาพหรือพูดเรื่องที่ไม่จริง (delirium) พบได้บ่อยในผู้ป่วยวิกฤต ส่วนใหญ่ดีขึ้นเมื่ออาการดีขึ้น ครอบครัวช่วยได้มากด้วยการมาเยี่ยม พูดคุย และนำแว่นตาหรือเครื่องช่วยฟังมาให้')}`},
+   {id:'food',label:'อาหารและโภชนาการ',html:`<h3>ผู้ป่วยจะได้รับอาหารอย่างไร</h3><p>ระหว่างใส่ท่อช่วยหายใจ ผู้ป่วยกินทางปากไม่ได้ จึงให้อาหารเหลวทางสายยางที่ใส่ทางจมูกหรือปากลงสู่กระเพาะอาหาร</p>
+     ${FIG(ngSvg(),'สายให้อาหารผ่านหลอดอาหารลงกระเพาะ แยกจากท่อช่วยหายใจที่อยู่ในหลอดลม')}
+     <ol class="seq">
+      <li><b>เริ่มให้อาหารเร็ว</b>ถ้าความดันคงที่ มักเริ่มภายใน 24–48 ชั่วโมง ช่วยรักษาลำไส้และกล้ามเนื้อ</li>
+      <li><b>คำนวณพลังงานและโปรตีน</b>นักโภชนาการหรือแพทย์คำนวณปริมาณตามน้ำหนักและความรุนแรงของโรค</li>
+      <li><b>ประเมินทุกวัน</b>ท้องอืด อาเจียน การขับถ่าย น้ำตาลและเกลือแร่ในเลือด และปริมาณที่ได้จริง</li>
+      <li><b>ปรับเมื่อมีปัญหา</b>ถ้าลำไส้ทำงานไม่ได้ อาจให้สารอาหารบางส่วนทางหลอดเลือดดำ</li>
+      <li><b>หลังถอดท่อ</b>ประเมินการกลืนก่อนเริ่มกินทางปาก เพื่อป้องกันการสำลัก</li></ol>
+     ${W('นำอาหารจากบ้านมาได้ไหม','ระหว่างใส่ท่อยังไม่ได้ หลังถอดท่อและผ่านการประเมินการกลืนแล้ว ปรึกษาพยาบาลหรือนักโภชนาการก่อน')}`},
+   {id:'faq',label:'ข้อที่ครอบครัวมักกังวล',html:`<h3>ข้อที่ครอบครัวมักกังวล</h3>
+     ${W('ทำไมต้องผูกยึดมือ','ผู้ป่วยที่เพิ่งตื่นหรือสับสนอาจดึงท่อออกเองโดยไม่ตั้งใจ ซึ่งอันตรายมาก การผูกยึดใช้ผ้านุ่ม หลวมพอให้ขยับได้ พยาบาลตรวจผิวหนังและคลายเป็นระยะ และจะเลิกผูกทันทีเมื่อปลอดภัย')}
+     ${W('ผู้ป่วยพูดได้ไหม','พูดไม่ได้ชั่วคราว เพราะท่อผ่านระหว่างสายเสียง ถ้าผู้ป่วยตื่นดี สื่อสารได้โดยการพยักหน้า บีบมือ เขียน หรือชี้กระดานตัวอักษร')}
+     ${W('ทำไมดูดเสมหะแล้วผู้ป่วยไอ หน้าแดง','เป็นปฏิกิริยาปกติของร่างกายที่ช่วยขับเสมหะ เกิดขึ้นเพียงไม่กี่วินาที การดูดเสมหะช่วยไม่ให้ท่ออุดตันและลดปอดอักเสบ')}
+     ${W('ใส่ท่อแล้วแปลว่าไม่รอดใช่ไหม','ไม่ใช่ ผู้ป่วยจำนวนมากใส่ท่อชั่วคราวแล้วถอดออกได้ การใส่ท่อเป็นการพยุงการหายใจระหว่างรักษาสาเหตุ ผลลัพธ์ขึ้นกับโรคที่เป็น')}
+     ${W('ใส่แล้วจะต้องอยู่กับเครื่องตลอดไปไหม','ส่วนใหญ่ถอดได้เมื่อสาเหตุดีขึ้น บางรายที่ต้องใช้เครื่องนานอาจต้องเจาะคอเพื่อความสบายและปลอดภัย ทีมจะคุยกับครอบครัวก่อนตัดสินใจทุกครั้ง')}
+     ${W('ครอบครัวช่วยอะไรได้บ้าง','มาเยี่ยมตามเวลาที่กำหนด พูดคุยกับผู้ป่วย บอกพยาบาลเรื่องนิสัยหรือความชอบของผู้ป่วย และแจ้งทีมถ้าผู้ป่วยเคยบอกความต้องการเรื่องการรักษาในวาระสุดท้ายไว้')}`},
+   {id:'wean',label:'การหย่าเครื่อง',html:`<h3>การหย่าเครื่องช่วยหายใจ</h3><p>เริ่มคิดเรื่องหย่าเครื่องตั้งแต่วันแรก และประเมินทุกวัน</p>
+     <ol class="seq"><li><b>รักษาสาเหตุจนดีขึ้น</b>เช่น การติดเชื้อตอบสนองต่อยา ความดันคงที่ ใช้ออกซิเจนน้อยลง</li>
+      <li><b>ลดยานอนหลับ ให้ผู้ป่วยตื่น</b>ผู้ป่วยต้องตื่นพอจะหายใจเองและไอขับเสมหะได้</li>
+      <li><b>ทดสอบหายใจเอง</b>ปรับเครื่องให้ช่วยน้อยที่สุด ประมาณ 30–120 นาที ดูว่าผู้ป่วยเหนื่อยไหม ออกซิเจนพอไหม</li>
+      <li><b>ถอดท่อ</b>ถ้าผ่านการทดสอบ จะถอดท่อและให้ออกซิเจนทางจมูกหรือหน้ากาก</li>
+      <li><b>เฝ้าระวัง 48–72 ชั่วโมง</b>ผู้ป่วยบางรายเหนื่อยซ้ำและต้องใส่ท่อกลับ ประมาณ 1 ใน 10 ถึง 1 ใน 5 คน ไม่ได้แปลว่าการดูแลผิดพลาด</li></ol>
+     ${W('หลังถอดท่อ','เจ็บคอและเสียงแหบได้ 1–3 วัน ต้องประเมินการกลืนก่อนเริ่มกินอาหาร')}
+     ${W('ถ้าหย่าเครื่องไม่ได้','ทีมจะหาสาเหตุ เช่น กล้ามเนื้ออ่อนแรง ภาวะหัวใจ หรือเสมหะมาก และค่อย ๆ ฝึกต่อ บางรายพิจารณาเจาะคอเพื่อให้หย่าเครื่องง่ายขึ้น')}`},
+   {id:'dur',label:'ต้องใส่นานแค่ไหน',html:`<h3>ต้องใส่ท่อนานแค่ไหน</h3><p>ขึ้นกับโรคที่เป็นสาเหตุ ช่วงด้านล่างเป็นค่าโดยประมาณ แต่ละคนแตกต่างกัน</p>
+     ${durHTML([['หลังผ่าตัด ได้ยาเกินขนาด ชักต่อเนื่อง',0,40],['ปอดอักเสบ หัวใจล้มเหลว ถุงลมโป่งพองกำเริบ',28,36],['ปอดบาดเจ็บรุนแรง (ARDS) ติดเชื้อในกระแสเลือดรุนแรง โรคสมอง',55,45,1]],['ชั่วโมง','1 วัน','3 วัน','1 สัปดาห์','2 สัปดาห์','3 สัปดาห์ขึ้นไป'],76)}
+     <p class="hint">เส้นสีส้ม: ถ้าใส่ท่อนานเกินประมาณ 10–14 วัน แพทย์อาจหารือเรื่องการเจาะคอ</p>${DR('course','ความเห็นแพทย์สำหรับผู้ป่วยรายนี้')}`},
+   {id:'risk',label:'ความเสี่ยง',html:riskPanel},
+   {id:'prog',label:'การพยากรณ์โรค',html:`<h3>การพยากรณ์โรค</h3><p>การใส่ท่อช่วยหายใจเป็นการ <b>ซื้อเวลา</b> ให้ร่างกายได้พักระหว่างรักษาสาเหตุ ผลลัพธ์จึงขึ้นกับโรคที่เป็น อายุ โรคประจำตัว และการตอบสนองต่อการรักษาในช่วงไม่กี่วันแรก</p>
+     ${DR('prog','ความเห็นแพทย์สำหรับผู้ป่วยรายนี้')}
+     ${W('ทีมจะแจ้งความคืบหน้าอย่างไร','แพทย์ทบทวนอาการทุกวัน ครอบครัวขอพบแพทย์เพื่อคุยเรื่องอาการได้ ควรมีญาติหลักหนึ่งคนเป็นผู้ประสานงาน')}
+     ${W('ถ้าอาการไม่ดีขึ้น','ทีมจะคุยกับครอบครัวเรื่องเป้าหมายการรักษาที่ตรงกับความต้องการของผู้ป่วย ซึ่งอาจรวมถึงการดูแลแบบประคับประคองเพื่อให้ผู้ป่วยสุขสบาย ไม่ทรมาน')}`}]
+},
+thora:{
+  key:'thora',title:'การเจาะปอด',en:'Thoracentesis / Chest drain (เจาะระบายช่องเยื่อหุ้มปอด)',code:'THORA-CONSENT',
+  blurb:'อธิบายตำแหน่งที่แพทย์จะเจาะ ท่าทำหัตถการ อวัยวะใกล้เคียงที่อาจได้รับบาดเจ็บ ยาชา การดูแลสายระบาย และข้อกังวลที่พบบ่อย',
+  svg:thoraSvg,printStep:5,labels:TH_ANAT,plateCap:'ทรวงอกด้านหน้า ภาพตัวอย่างน้ำคั่งในช่องเยื่อหุ้มปอดด้านขวาของผู้ป่วย (ด้านซ้ายของภาพ)',
+  illTitle:'เจาะปอดทำอย่างไร',careTitle:'ระหว่างและหลังเจาะปอด ผู้ป่วยจะได้รับการดูแลอย่างไร',
+  indLabel:'เหตุผลที่จำเป็นต้องเจาะระบายช่องเยื่อหุ้มปอด',
+  ind:['มีน้ำในช่องเยื่อหุ้มปอดปริมาณมาก ทำให้หายใจเหนื่อย','ต้องการตรวจหาสาเหตุของน้ำในช่องเยื่อหุ้มปอด','มีลมรั่วในช่องเยื่อหุ้มปอด (ปอดแฟบ)','มีหนองหรือเลือดในช่องเยื่อหุ้มปอด'],
+  extra:[{id:'xSide',label:'ข้างที่ทำ',opts:['ขวา','ซ้าย','ทั้งสองข้าง']},{id:'xType',label:'ชนิดหัตถการ',opts:['เจาะดูดด้วยเข็ม (thoracentesis)','ใส่สายระบายขนาดเล็ก (pigtail catheter)','ใส่สายระบายทรวงอก (chest drain)']},{id:'xGuide',label:'การนำทาง',opts:['ใช้อัลตราซาวด์นำทาง','ไม่ใช้อัลตราซาวด์']}],
+  course:{label:'ลักษณะและระยะเวลาที่คาด',opts:{once:['เจาะระบายครั้งเดียว','เจาะระบายครั้งเดียว ใช้เวลาประมาณ 15–45 นาที ไม่ต้องคาสาย'],short:['คาสายระบาย 2–5 วัน','คาดว่าจะคาสายระบายประมาณ 2–5 วัน'],long:['คาสายระบายนานกว่า 1 สัปดาห์','คาดว่าจะคาสายระบายนานกว่า 1 สัปดาห์ เช่น กรณีหนองหรือลมรั่วต่อเนื่อง'],unk:['ยังประเมินไม่ได้','ยังประเมินไม่ได้ในขณะนี้ แพทย์จะประเมินและแจ้งเป็นระยะ']}},
+  steps:[
+   {t:'ช่องเยื่อหุ้มปอดและน้ำที่คั่ง',d:'ปอดอยู่ในถุงบาง ๆ สองชั้นเรียกว่าเยื่อหุ้มปอด ปกติมีน้ำหล่อลื่นเพียงเล็กน้อย เมื่อมีน้ำ ลม หนอง หรือเลือดคั่งมาก ปอดจะถูกกดจนขยายตัวไม่ได้ ผู้ป่วยจึงเหนื่อย',p:['ภาพตัวอย่างแสดงน้ำคั่งที่ฐานปอดด้านขวา (สีน้ำเงิน)','ใกล้กันมีหัวใจ กระบังลม ตับ (ด้านขวา) และม้าม (ด้านซ้าย) ซึ่งแพทย์ต้องระวัง']},
+   {t:'จัดท่าและหาตำแหน่ง',d:'ผู้ป่วยนั่งโน้มตัวไปข้างหน้า วางแขนบนโต๊ะคร่อมเตียง หรือนอนตะแคงถ้านั่งไม่ได้ แพทย์ใช้อัลตราซาวด์หาตำแหน่งที่ปลอดภัยที่สุด',p:['ตำแหน่งมักอยู่ด้านหลังหรือด้านข้างของทรวงอก ในระดับที่มีน้ำ แต่สูงกว่ากระบังลม','ทำเครื่องหมายบนผิวหนัง และทำความสะอาดด้วยน้ำยาฆ่าเชื้อ']},
+   {t:'ฉีดยาชา',d:'ฉีดยาชาเฉพาะที่ตั้งแต่ผิวหนังลึกลงไปถึงเยื่อหุ้มปอด',p:['รู้สึกแสบเหมือนมดกัดช่วงสั้น ๆ แล้วจะชา','ผู้ป่วยตื่นอยู่ และพูดคุยกับแพทย์ได้ตลอด']},
+   {t:'ใส่เข็มหรือสายระบาย',d:'สอดเข็มหรือสายเล็กผ่านช่องระหว่างซี่โครง โดยผ่านเหนือขอบบนของซี่โครงซี่ล่าง เพื่อหลีกเลี่ยงเส้นเลือดและเส้นประสาทที่อยู่ใต้ซี่โครง',p:['ผู้ป่วยอาจรู้สึกแน่นหรือถูกดัน แต่ไม่ควรเจ็บมาก','ขอให้นั่งนิ่ง ๆ และไม่ไอแรงขณะใส่เข็ม ถ้าจะไอให้บอกก่อน']},
+   {t:'ระบายน้ำหรือลม',d:'ต่อสายเข้ากับขวดหรือถุงรองรับ น้ำไหลออก ปอดค่อย ๆ ขยายกลับ',p:['มักระบายไม่เกินประมาณ 1–1.5 ลิตรต่อครั้ง เพื่อป้องกันปอดบวมน้ำ','อาจไอหรือแน่นหน้าอกเมื่อปอดขยาย ถ้าเป็นมากแพทย์จะหยุดระบาย','กรณีคาสายระบาย ต้องวางขวดต่ำกว่าระดับหน้าอกเสมอ']},
+   {t:'ปิดแผลและตรวจซ้ำ',d:'ถอดเข็มแล้วปิดแผล หรือเย็บยึดสายระบายไว้ แล้วตรวจเอกซเรย์หรืออัลตราซาวด์ซ้ำ',p:['ส่งน้ำที่ได้ไปตรวจหาสาเหตุ','ทั้งหมดใช้เวลาประมาณ 15–45 นาที']}],
+  inset:s=>s===2||s===3?{html:thoraScene(),text:'ท่าทำหัตถการ: ผู้ป่วยนั่งโน้มตัวไปข้างหน้า วางแขนบนหมอนบนโต๊ะคร่อมเตียง แพทย์ทำหัตถการจากด้านหลัง (เครื่องหมาย × คือตำแหน่งเจาะ)'}:(s===4||s===5)?{html:ribInset(),text:'ภาพตัดผนังทรวงอก: เส้นเลือดและเส้นประสาท (จุดสีน้ำเงิน แดง เหลือง) อยู่ใต้ซี่โครง เข็มจึงผ่านเหนือขอบบนของซี่โครงซี่ล่าง'}:null,
+  risks:[
+   {g:'ระหว่างทำหัตถการ',items:[['เจ็บบริเวณที่เจาะ',3,'ยาชาเฉพาะที่ ยาแก้ปวด'],['ไอ แน่นหน้าอกขณะระบาย',3,'ระบายช้า ๆ หยุดเมื่อมีอาการ'],['หน้ามืด เป็นลม',2,'ให้นอนราบ ให้สารน้ำ'],['ลมรั่วในช่องเยื่อหุ้มปอด (ปอดแฟบ)',2,'ใช้อัลตราซาวด์นำทาง เอกซเรย์หลังทำ อาจต้องใส่สายระบายลม'],['เลือดออกจากหลอดเลือดใต้ซี่โครง',1,'เจาะเหนือขอบซี่โครงล่าง ตรวจค่าการแข็งตัวของเลือดก่อน'],['เจาะถูกตับหรือม้าม',1,'หาตำแหน่งด้วยอัลตราซาวด์ เจาะสูงกว่ากระบังลม']]},
+   {g:'หลังทำหัตถการ',items:[['ปอดบวมน้ำหลังปอดขยายตัวเร็ว',1,'จำกัดปริมาณการระบายต่อครั้ง'],['ติดเชื้อที่แผลหรือในช่องเยื่อหุ้มปอด',1,'เทคนิคปลอดเชื้อ ดูแลแผล'],['สายระบายเลื่อน หลุด หรืออุดตัน',2,'เย็บยึดสาย ตรวจสายทุกเวร'],['น้ำกลับมาคั่งใหม่',2,'รักษาสาเหตุ อาจต้องเจาะซ้ำ']]}],
+  riskFig:{step:1,cap:'อวัยวะใกล้เคียงที่อาจได้รับบาดเจ็บจากการเจาะปอด',marks:[
+   {n:1,a:[150,200],t:'ปอด: ลมรั่วในช่องเยื่อหุ้มปอด ปอดแฟบ',f:'พบได้น้อย'},{n:2,a:[36,350],t:'หลอดเลือดใต้ซี่โครง: เลือดออก',f:'พบได้น้อยมาก'},
+   {n:3,a:[170,466],t:'ตับ: ถ้าเจาะด้านขวาต่ำเกินไป',f:'พบได้น้อยมาก'},{n:4,a:[398,470],t:'ม้าม: ถ้าเจาะด้านซ้ายต่ำเกินไป',f:'พบได้น้อยมาก'},
+   {n:5,a:[284,340],t:'หัวใจ',f:'พบได้น้อยมาก'},{n:6,a:[150,300],t:'ปอดบวมน้ำหลังระบายน้ำออกเร็ว',f:'พบได้น้อยมาก'},{n:7,a:[56,430],t:'ติดเชื้อที่แผลหรือในช่องเยื่อหุ้มปอด',f:'พบได้น้อยมาก'}]},
+  pdfCare:[['ยาชาและยาแก้ปวด','ฉีดยาชาเฉพาะที่ก่อนเจาะ และให้ยาแก้ปวดตามอาการ โดยเฉพาะเมื่อคาสายระบาย'],['ยานอนหลับ','โดยทั่วไปไม่จำเป็น เพราะผู้ป่วยต้องให้ความร่วมมือ อาจให้ยาคลายกังวลขนาดน้อยในบางราย'],['ระหว่างทำ','นั่งโน้มตัวนิ่ง ๆ แจ้งแพทย์หากจะไอ เจ็บแน่นหน้าอก หรือหน้ามืด'],['การดูแลสายระบาย','วางขวดระบายต่ำกว่าระดับหน้าอกเสมอ ห้ามดึงหรือหักพับสาย ลุกเดินได้ตามคำแนะนำ']],
+  pdfDur:['ระยะเวลาและการติดตาม','การเจาะระบายครั้งเดียวใช้เวลาประมาณ 15–45 นาที หากใส่สายระบาย มักคาไว้หลายวันจนน้ำหรือลมลดลงแล้วจึงถอดออก ตรวจเอกซเรย์หลังทำและหลังถอดสาย'],
+  altTitle:'ทางเลือกและผลของการไม่เจาะระบาย',
+  alt:'ทางเลือกขึ้นกับสาเหตุ เช่น ยาขับปัสสาวะในภาวะหัวใจล้มเหลว ยาปฏิชีวนะ หรือเฝ้าติดตามอาการเมื่อน้ำมีปริมาณน้อย หากไม่ได้เจาะระบายเมื่อจำเป็น อาจหายใจเหนื่อยมากขึ้น การติดเชื้อลุกลามเป็นหนองในช่องเยื่อหุ้มปอด หรือไม่ทราบสาเหตุของโรคเพื่อวางแผนการรักษา',
+  note:'กรณีฉุกเฉินที่เป็นอันตรายต่อชีวิตและไม่สามารถรอความยินยอมได้ แพทย์จะดำเนินการเพื่อช่วยชีวิตตามมาตรฐานวิชาชีพ',
+  acks:['ได้รับคำอธิบายเรื่องเหตุผล วิธีการ ประโยชน์ และความเสี่ยงของการเจาะระบายช่องเยื่อหุ้มปอด ด้วยภาษาที่เข้าใจได้','ได้รับทราบตำแหน่งที่จะเจาะ และอวัยวะใกล้เคียงที่อาจได้รับบาดเจ็บ','ได้รับทราบเรื่องยาชา ยาแก้ปวด การดูแลสายระบาย และระยะเวลาที่คาดไว้',ACK_ASK,ACK_CHANGE],
+  decisions:[{v:'yes',label:'ยินยอมให้เจาะระบาย',acks:true,pdf:'<b>ยินยอม</b> ให้แพทย์เจาะระบายช่องเยื่อหุ้มปอด ใส่สายระบาย (ถ้าจำเป็น) และให้ยาชาหรือยาที่เกี่ยวข้องตามที่ได้รับคำอธิบาย'},
+   {v:'no',label:'ไม่ยินยอม',why:'เหตุผลที่ไม่ยินยอม (ถ้ามี)',ack:'รับทราบผลที่อาจเกิดขึ้นหากไม่ได้เจาะระบาย เช่น หายใจเหนื่อยมากขึ้น การติดเชื้อลุกลาม หรือไม่ทราบสาเหตุของโรค',pdf:'<b>ไม่ยินยอม</b> ให้เจาะระบายช่องเยื่อหุ้มปอด'}],
+  panels:()=>[
+   {id:'pos',label:'ท่าและระหว่างทำ',html:`<h3>ท่าทำหัตถการและสิ่งที่เกิดขึ้นระหว่างทำ</h3>${FIG(thoraScene(),'ผู้ป่วยนั่งโน้มตัวไปข้างหน้า แพทย์ทำหัตถการจากด้านหลังด้วยเทคนิคปลอดเชื้อ')}
+     ${W('ใช้เวลานานแค่ไหน','ประมาณ 15–45 นาที รวมการจัดท่าและหาตำแหน่งด้วยอัลตราซาวด์')}
+     ${W('ต้องงดน้ำงดอาหารไหม','ส่วนใหญ่ไม่ต้อง ยกเว้นแพทย์แจ้งเป็นพิเศษ')}
+     ${W('ครอบครัวอยู่ด้วยได้ไหม','ส่วนใหญ่ขอให้รอนอกม่านหรือนอกห้องเพื่อความสะอาด ถ้าผู้ป่วยกังวลมาก ปรึกษาทีมได้')}
+     ${W('ถ้าผู้ป่วยนั่งไม่ได้','ทำในท่านอนตะแคงหรือนอนหงายยกหัวสูงได้ โดยใช้อัลตราซาวด์ช่วยหาตำแหน่ง')}`},
+   {id:'pain',label:'ความเจ็บปวด',html:`<h3>ผู้ป่วยจะเจ็บไหม</h3>
+     ${W('ยาชาเฉพาะที่','ฉีดยาชา (lidocaine) ทีละชั้นตั้งแต่ผิวหนังถึงเยื่อหุ้มปอด แสบแค่ช่วงแรก หลังจากนั้นจะรู้สึกเพียงแรงดันหรือแน่น')}
+     ${W('ระหว่างระบาย','อาจรู้สึกตึงหรือแน่นหน้าอกเมื่อปอดขยายตัว บอกแพทย์ได้ทันที แพทย์จะหยุดระบายชั่วคราว')}
+     ${W('เมื่อคาสายระบาย','อาจปวดบริเวณที่สายผ่านผิวหนัง โดยเฉพาะเวลาหายใจลึกหรือไอ ทีมจะให้ยาแก้ปวดตามเวลา ไม่ต้องรอจนปวดมาก')}
+     ${W('ทำไมยังต้องหายใจลึกและไอ','ช่วยให้ปอดขยายเต็มที่และลดปอดอักเสบ ยาแก้ปวดที่เพียงพอทำให้ผู้ป่วยทำสิ่งนี้ได้')}`},
+   {id:'sed',label:'ยานอนหลับ',html:`<h3>ต้องให้ยานอนหลับไหม</h3><p>โดยทั่วไป <b>ไม่จำเป็น</b> เพราะหัตถการใช้เวลาสั้นและผู้ป่วยต้องนั่งนิ่ง ให้ความร่วมมือ และบอกอาการระหว่างทำได้</p>
+     ${W('ผู้ป่วยกังวลมาก','อาจให้ยาคลายกังวลขนาดน้อยทางหลอดเลือด และติดเครื่องวัดออกซิเจนระหว่างทำ')}
+     ${W('ผู้ป่วยที่ใส่ท่อช่วยหายใจอยู่แล้ว','ใช้ยาแก้ปวดและยานอนหลับที่ให้อยู่เดิม ปรับเพิ่มก่อนทำหัตถการ')}`},
+   {id:'faq',label:'ข้อที่ครอบครัวมักกังวล',html:`<h3>ข้อที่ครอบครัวมักกังวล</h3>
+     ${W('เจาะปอดแล้วปอดจะรั่วไหม','เข็มเข้าไปในช่องว่างรอบปอด ไม่ได้แทงเนื้อปอดโดยตรง โอกาสเกิดลมรั่วมีน้อย และลดลงอีกเมื่อใช้อัลตราซาวด์นำทาง')}
+     ${W('ทำไมไม่ระบายออกให้หมดทีเดียว','การระบายมากเร็วเกินไปทำให้ปอดที่ถูกกดนานขยายตัวเร็วจนเกิดปอดบวมน้ำได้ จึงมักระบายไม่เกินประมาณ 1–1.5 ลิตรต่อครั้ง')}
+     ${W('น้ำจะกลับมาอีกไหม','ขึ้นกับสาเหตุ ถ้าสาเหตุรักษาได้ เช่น ติดเชื้อหรือหัวใจล้มเหลว มักไม่กลับมา ถ้าเป็นจากมะเร็งอาจกลับมาได้ และมีทางเลือกระยะยาว')}
+     ${W('ขวดระบายมีฟองอากาศ หรือขวดล้ม','ฟองอากาศอาจปกติในกรณีระบายลม ถ้าขวดล้ม สายหลุด หรือผู้ป่วยเหนื่อยขึ้น เรียกพยาบาลทันที อย่ายกขวดขึ้นสูงกว่าหน้าอก')}
+     ${W('ลุกเดินหรืออาบน้ำได้ไหม','ลุกเดินได้ตามคำแนะนำ ถือขวดให้ต่ำกว่าหน้าอก ห้ามแผลเปียกน้ำจนกว่าแพทย์อนุญาต')}`},
+   {id:'after',label:'หลังทำและการดูแลสาย',html:`<h3>หลังทำหัตถการ</h3>
+     <ol class="seq"><li><b>ตรวจเอกซเรย์หรืออัลตราซาวด์</b>ดูว่าปอดขยายดี และไม่มีลมรั่ว</li>
+      <li><b>ส่งน้ำตรวจ</b>ผลเบื้องต้นได้ใน 1–2 วัน ผลเพาะเชื้อและผลเซลล์อาจใช้เวลานานกว่า</li>
+      <li><b>เฝ้าระวังอาการ</b>เหนื่อยมากขึ้น เจ็บหน้าอก ไอเป็นเลือด ไข้ หรือเลือดซึมจากแผล ให้แจ้งพยาบาล</li>
+      <li><b>ถอดสายระบาย</b>เมื่อปริมาณที่ระบายลดลงมากหรือลมหยุดรั่ว ใช้เวลาไม่กี่นาที แล้วตรวจเอกซเรย์ซ้ำ</li></ol>`},
+   {id:'dur',label:'ระยะเวลา',html:`<h3>ใช้เวลานานแค่ไหน</h3>
+     ${durHTML([['เจาะดูดด้วยเข็มครั้งเดียว',0,6],['สายระบายขนาดเล็ก',30,22],['สายระบายทรวงอก กรณีหนองหรือลมรั่วต่อเนื่อง',45,55]],['นาที','1 วัน','3 วัน','1 สัปดาห์','2 สัปดาห์','3 สัปดาห์ขึ้นไป'])}
+     ${DR('course','ความเห็นแพทย์สำหรับผู้ป่วยรายนี้')}`},
+   {id:'risk',label:'ความเสี่ยงและอวัยวะใกล้เคียง',html:riskPanel},
+   {id:'prog',label:'การพยากรณ์โรค',html:`<h3>การพยากรณ์โรค</h3><p>การเจาะปอดช่วยให้หายใจสบายขึ้นและช่วยหาสาเหตุ แต่ผลระยะยาวขึ้นกับโรคที่ทำให้เกิดน้ำ ลม หรือหนอง</p>
+     ${W('หัวใจล้มเหลว ไตวาย','มักดีขึ้นเมื่อปรับยาและควบคุมน้ำในร่างกาย')}
+     ${W('การติดเชื้อหรือหนอง','ต้องใช้ยาปฏิชีวนะร่วมกับการระบาย บางรายต้องใส่สายนานหรือผ่าตัด')}
+     ${W('มะเร็ง','น้ำอาจกลับมาซ้ำ มีทางเลือกระยะยาว เช่น สายระบายที่คาไว้ที่บ้าน หรือการทำให้เยื่อหุ้มปอดติดกัน ทีมจะคุยตามเป้าหมายของผู้ป่วย')}
+     ${DR('prog','ความเห็นแพทย์สำหรับผู้ป่วยรายนี้')}`}]
+},
+cpr:{
+  key:'cpr',title:'การช่วยฟื้นคืนชีพ (CPR)',en:'Cardiopulmonary resuscitation and code status',code:'CPR-DECISION',
+  blurb:'อธิบายสิ่งที่ทีมทำเมื่อหัวใจหยุดเต้น โอกาสรอดและผลหลังรอด ผลข้างเคียง และทางเลือกการไม่ช่วยฟื้นคืนชีพ (DNR) ที่ยังคงการดูแลความสุขสบาย',
+  svg:cprSvg,printStep:4,labels:CPR_ANAT,plateCap:'ผู้ป่วยนอนหงาย มองจากด้านบน',
+  illTitle:'เมื่อหัวใจหยุดเต้น ทีมทำอะไรบ้าง',careTitle:'ข้อมูลประกอบการตัดสินใจเรื่องการช่วยฟื้นคืนชีพ',
+  indLabel:'สภาวะของผู้ป่วยที่ทำให้ต้องหารือเรื่องการช่วยฟื้นคืนชีพ',
+  ind:['ผู้ป่วยอาการวิกฤต มีความเสี่ยงหัวใจหยุดเต้น','ผู้ป่วยมีโรคเรื้อรังระยะท้าย','ผู้ป่วยสูงอายุ เปราะบาง หรือมีความสามารถในการทำกิจวัตรลดลงมาก','วางแผนการดูแลล่วงหน้าตามความประสงค์ของผู้ป่วย'],
+  extra:[{id:'xAD',label:'หนังสือแสดงเจตนาล่วงหน้า',opts:['ไม่มี','มี (แนบสำเนา)','ไม่ทราบ']},{id:'xCap',label:'ผู้ป่วยตัดสินใจเองได้ไหม',opts:['ได้ ผู้ป่วยร่วมตัดสินใจ','ไม่ได้ ญาติตัดสินใจแทนตามความประสงค์ของผู้ป่วย']}],
+  course:{label:'ความเห็นแพทย์ต่อโอกาสได้ประโยชน์จาก CPR',opts:{likely:['มีโอกาสได้ประโยชน์','หากหัวใจหยุดเต้น การช่วยฟื้นคืนชีพมีโอกาสช่วยให้ผู้ป่วยกลับมาฟื้นตัวได้'],low:['โอกาสได้ประโยชน์น้อย','การช่วยฟื้นคืนชีพมีโอกาสได้ประโยชน์น้อย และอาจเพิ่มความทรมาน'],vlow:['แทบไม่มีโอกาสได้ประโยชน์','จากสภาวะโรคปัจจุบัน การช่วยฟื้นคืนชีพแทบไม่มีโอกาสช่วยให้ฟื้นตัว ทีมแนะนำให้พิจารณาการดูแลแบบประคับประคอง'],unk:['ยังประเมินไม่ได้','ยังประเมินไม่ได้ในขณะนี้ แพทย์จะประเมินและแจ้งเป็นระยะ']}},
+  steps:[
+   {t:'เมื่อหัวใจหยุดเต้น',d:'หัวใจหยุดสูบฉีดเลือด หรือเต้นสั่นพลิ้วจนสูบฉีดเลือดไม่ได้ สมองและอวัยวะจะขาดออกซิเจนภายในไม่กี่นาที',p:['ผู้ป่วยไม่รู้สึกตัว ไม่หายใจ คลำชีพจรไม่ได้','ทีมจะเริ่มช่วยฟื้นคืนชีพทันที เว้นแต่ได้ตกลงไว้ล่วงหน้าว่าไม่ทำ']},
+   {t:'กดหน้าอก',d:'วางมือที่ครึ่งล่างของกระดูกหน้าอก กดลึกประมาณ 5–6 ซม. เร็ว 100–120 ครั้งต่อนาที เพื่อบีบหัวใจให้เลือดไหลไปเลี้ยงสมอง',p:['รองแผ่นกระดานแข็งใต้หลังเพื่อให้กดได้ผล','ผู้ช่วยสลับกันกดทุก 2 นาที เพราะต้องใช้แรงมาก','การกดแรงขนาดนี้ทำให้ซี่โครงหักได้บ่อย']},
+   {t:'ช่วยหายใจ',d:'ใช้หน้ากากและถุงบีบลมส่งออกซิเจนเข้าปอด และมักใส่ท่อช่วยหายใจระหว่างการช่วยฟื้นคืนชีพ',p:['รายละเอียดการใส่ท่อดูได้ในหัวข้อการใส่ท่อช่วยหายใจ']},
+   {t:'กระตุกไฟฟ้าหัวใจ',d:'ติดแผ่นนำไฟฟ้าที่หน้าอกด้านขวาบนและด้านข้างซ้าย ถ้าคลื่นหัวใจเต้นสั่นพลิ้ว จะปล่อยไฟฟ้าเพื่อให้หัวใจกลับมาเต้นเป็นจังหวะ',p:['ไม่ใช่ทุกคนที่กระตุกไฟฟ้าได้ ขึ้นกับชนิดของคลื่นหัวใจ','ร่างกายผู้ป่วยอาจกระตุกขณะปล่อยไฟฟ้า']},
+   {t:'ให้ยา',d:'ให้ยากระตุ้นหัวใจ เช่น อะดรีนาลีน ทางหลอดเลือดดำทุก 3–5 นาที และยาอื่นตามคลื่นหัวใจ',p:['ทีมหาสาเหตุที่แก้ไขได้ไปพร้อมกัน เช่น โพแทสเซียมสูง เสียเลือด ลิ่มเลือดอุดตัน']},
+   {t:'หลังการช่วยฟื้นคืนชีพ',d:'ถ้าหัวใจกลับมาเต้น ผู้ป่วยจะย้ายเข้าไอซียู ใช้เครื่องช่วยหายใจ และประเมินสมองต่อเนื่อง ถ้าไม่ตอบสนองหลังพยายามระยะหนึ่ง ทีมจะหยุดการช่วยฟื้นคืนชีพ',p:['การช่วยฟื้นคืนชีพมักใช้เวลา 20–30 นาทีขึ้นไป','ผู้ที่รอดบางคนมีสมองขาดออกซิเจน ต้องดูแลต่อเนื่องระยะยาว']}],
+  inset:s=>({1:{html:ecg('vf'),text:'คลื่นหัวใจเต้นสั่นพลิ้ว: หัวใจสั่นแต่ไม่สูบฉีดเลือด'},2:{html:compressInset(),text:'มองจากด้านข้าง: การกดหน้าอกบีบหัวใจระหว่างกระดูกหน้าอกกับกระดูกสันหลัง ดันเลือดไปเลี้ยงสมอง'},4:{html:ecg('shock'),text:'ปล่อยไฟฟ้า แล้วคลื่นหัวใจกลับมาเต้นเป็นจังหวะ'},6:{html:ecg('sinus'),text:'คลื่นหัวใจกลับมาเต้นเป็นจังหวะ ย้ายเข้าไอซียูเพื่อดูแลต่อ'}})[s]||null,
+  risks:[
+   {g:'การบาดเจ็บจากการช่วยฟื้นคืนชีพ',items:[['ซี่โครงหรือกระดูกหน้าอกหัก',3,'เป็นผลจากการกดที่จำเป็น ให้ยาแก้ปวดหากรอด'],['สำลักน้ำย่อยลงปอด',2,'ดูดเสมหะ ใส่ท่อช่วยหายใจ'],['ลมหรือเลือดในช่องเยื่อหุ้มปอด',1,'ใส่สายระบาย'],['ตับหรือม้ามฉีกขาด',1,'ตรวจและรักษาเพิ่มเติม'],['ผิวหนังไหม้จากแผ่นไฟฟ้า',1,'ดูแลแผล']]},
+   {g:'ผลหลังหัวใจกลับมาเต้น',items:[['สมองขาดออกซิเจน ไม่ฟื้นหรือฟื้นไม่เต็มที่',3,'ควบคุมอุณหภูมิ ประเมินสมองต่อเนื่อง'],['ต้องใช้เครื่องช่วยหายใจและยาพยุงความดัน',3,'ดูแลในไอซียู'],['หัวใจหยุดเต้นซ้ำ',2,'ทบทวนเป้าหมายการรักษากับครอบครัว']]}],
+  riskFig:{step:1,cap:'ตำแหน่งที่อาจได้รับผลกระทบจากการช่วยฟื้นคืนชีพ',marks:[
+   {n:1,a:[150,212],t:'ซี่โครงหัก',f:'พบได้บ่อย'},{n:2,a:[240,236],t:'กระดูกหน้าอกหัก',f:'พบได้บ่อย'},{n:3,a:[330,190],t:'ลมหรือเลือดในช่องเยื่อหุ้มปอด',f:'พบได้น้อย'},
+   {n:4,a:[196,350],t:'ตับ ม้ามฉีกขาด',f:'พบได้น้อยมาก'},{n:5,a:[240,52],t:'สมองขาดออกซิเจน',f:'พบได้บ่อยในผู้ที่รอด'},{n:6,a:[166,290],t:'สำลักน้ำย่อยลงปอด',f:'พบได้น้อย'},{n:7,a:[166,158],t:'ผิวหนังไหม้จากแผ่นไฟฟ้า',f:'พบได้น้อยมาก'}]},
+  pdfCare:[['ระหว่างการช่วยฟื้นคืนชีพ','ผู้ป่วยไม่รู้สึกตัว ครอบครัวอาจขออยู่ใกล้ได้ตามความเหมาะสม โดยมีเจ้าหน้าที่ดูแล'],['หลังหัวใจกลับมาเต้น','ใช้เครื่องช่วยหายใจ ให้ยาแก้ปวดและยานอนหลับ ประเมินสมองในไอซียู'],['เมื่อเลือกไม่ช่วยฟื้นคืนชีพ','ยังให้ยาแก้ปวด ยาลดอาการหอบ ออกซิเจน และการดูแลความสุขสบาย ครอบครัวอยู่ใกล้ชิดผู้ป่วยได้']],
+  pdfDur:['การช่วยฟื้นคืนชีพและหลังจากนั้น','การช่วยฟื้นคืนชีพมักใช้เวลา 20–30 นาทีขึ้นไป ทีมจะหยุดเมื่อหัวใจกลับมาเต้น หรือเมื่อประเมินว่าไม่ได้ผล ผู้ที่หัวใจกลับมาเต้นจะได้รับการดูแลในไอซียูต่อ'],
+  altTitle:'ทางเลือกในการตัดสินใจ',
+  alt:'ทางเลือกได้แก่ การช่วยฟื้นคืนชีพเต็มรูปแบบ การช่วยฟื้นคืนชีพบางส่วน หรือการไม่ช่วยฟื้นคืนชีพ (DNR) ทุกทางเลือก ผู้ป่วยยังได้รับการรักษาโรคปัจจุบันและการดูแลความสุขสบายตามเป้าหมายที่ตกลงร่วมกัน',
+  note:'การตัดสินใจนี้มีผลจนกว่าจะมีการเปลี่ยนแปลง และควรทบทวนเมื่ออาการของผู้ป่วยเปลี่ยนไป',
+  acks:['ได้รับคำอธิบายเรื่องวิธีการ ประโยชน์ ข้อจำกัด และผลข้างเคียงของการช่วยฟื้นคืนชีพ ด้วยภาษาที่เข้าใจได้','ได้รับทราบโอกาสรอดชีวิตและผลที่อาจเกิดขึ้นหลังการช่วยฟื้นคืนชีพตามสภาวะของผู้ป่วย','เข้าใจว่าการไม่ช่วยฟื้นคืนชีพ ไม่ได้หมายถึงการหยุดการรักษาอื่นหรือการดูแลความสุขสบาย','ได้พิจารณาความประสงค์และสิ่งที่ผู้ป่วยให้ความสำคัญ เท่าที่ทราบ',ACK_ASK,'ทราบว่าสามารถเปลี่ยนแปลงการตัดสินใจได้ตลอดเวลา'],
+  decisions:[{v:'full',label:'ช่วยฟื้นคืนชีพเต็มรูปแบบ',acks:true,pdf:'<b>ประสงค์ให้ช่วยฟื้นคืนชีพเต็มรูปแบบ</b> เมื่อหัวใจหยุดเต้น'},
+   {v:'partial',label:'ช่วยฟื้นคืนชีพบางส่วน',acks:true,sub:['กดหน้าอก','ใส่ท่อช่วยหายใจ','กระตุกไฟฟ้าหัวใจ','ให้ยากระตุ้นหัวใจ'],pdf:'<b>ประสงค์ให้ทำเฉพาะ</b>'},
+   {v:'dnr',label:'ไม่ช่วยฟื้นคืนชีพ (DNR)',acks:true,why:'การรักษาอื่นที่ตกลงร่วมกัน (ถ้ามี)',ack:'รับทราบว่าเมื่อหัวใจหยุดเต้นจะไม่มีการกดหน้าอก กระตุกไฟฟ้า หรือใส่ท่อช่วยหายใจ และนำไปสู่การเสียชีวิต',pdf:'<b>ไม่ประสงค์ให้ช่วยฟื้นคืนชีพ</b> เมื่อหัวใจหยุดเต้น โดยผู้ป่วยยังได้รับการรักษาอื่นและการดูแลความสุขสบายตามที่ตกลง'}],
+  panels:()=>[
+   {id:'what',label:'CPR คืออะไร',html:`<h3>การช่วยฟื้นคืนชีพคืออะไร</h3><p>เป็นการรักษาฉุกเฉินเมื่อหัวใจหยุดเต้น ประกอบด้วยการกดหน้าอก การช่วยหายใจ การกระตุกไฟฟ้า และการให้ยา โดยทีมหลายคนทำพร้อมกัน</p>
+     ${FIG(compressInset(),'การกดหน้าอกบีบหัวใจระหว่างกระดูกหน้าอกกับกระดูกสันหลัง')}
+     ${W('บรรยากาศขณะช่วยฟื้นคืนชีพ','มีเจ้าหน้าที่หลายคน เสียงเครื่องมือ และการสั่งงานเสียงดัง เป็นเรื่องปกติของการทำงานเป็นทีม')}
+     ${W('CPR ในโรงพยาบาลต่างจากในภาพยนตร์','ในภาพยนตร์ผู้ป่วยมักฟื้นทันที ในความเป็นจริงโอกาสสำเร็จต่ำกว่ามาก โดยเฉพาะในผู้ที่มีโรคเรื้อรังรุนแรง')}`},
+   {id:'prog',label:'โอกาสรอดและหลังรอด',html:`<h3>โอกาสรอดและชีวิตหลังรอด</h3>
+     <p>ข้อมูลจากต่างประเทศพบว่า ผู้ป่วยในโรงพยาบาลที่หัวใจหยุดเต้นและได้รับ CPR รอดชีวิตจนกลับบ้านได้ประมาณ 1 ใน 4 ถึง 1 ใน 5 คน ตัวเลขนี้ต่ำลงมากในผู้ที่มีโรคระยะท้าย ติดเชื้อรุนแรงหลายอวัยวะล้มเหลว หรือผู้สูงอายุเปราะบาง</p>
+     ${W('ปัจจัยที่ทำให้โอกาสรอดดีขึ้น','หัวใจหยุดเต้นต่อหน้าเจ้าหน้าที่ คลื่นหัวใจชนิดที่กระตุกไฟฟ้าได้ สาเหตุแก้ไขได้ และร่างกายแข็งแรงก่อนป่วย')}
+     ${W('หลังหัวใจกลับมาเต้น','ผู้ป่วยส่วนใหญ่ต้องใช้เครื่องช่วยหายใจในไอซียู บางคนฟื้นได้ดี บางคนสมองได้รับความเสียหาย ไม่รู้สึกตัวหรือต้องพึ่งพาผู้อื่นระยะยาว')}
+     ${DR('course','ความเห็นแพทย์ต่อโอกาสได้ประโยชน์จาก CPR')}${DR('prog','การพยากรณ์โรคโดยรวม')}`},
+   {id:'dnr',label:'ถ้าเลือกไม่ทำ CPR',html:`<h3>การดูแลเมื่อเลือกไม่ช่วยฟื้นคืนชีพ (DNR)</h3><p><b>DNR ไม่ได้แปลว่าไม่รักษา</b> หมายถึงจะไม่กดหน้าอก กระตุกไฟฟ้า หรือใส่ท่อช่วยหายใจเฉพาะเมื่อหัวใจหยุดเต้นแล้ว การรักษาอื่นยังให้ต่อตามที่ตกลง</p>
+     <ol class="seq"><li><b>การรักษาโรคปัจจุบัน</b>เช่น ยาปฏิชีวนะ สารน้ำ ยาต่าง ๆ ตามเป้าหมายที่ตกลงร่วมกัน</li>
+      <li><b>ลดอาการไม่สุขสบาย</b>ยาแก้ปวด ยาลดอาการหอบเหนื่อย เช่น มอร์ฟีนขนาดน้อย ออกซิเจน ยาลดเสมหะ</li>
+      <li><b>ดูแลร่างกาย</b>ดูแลช่องปาก ผิวหนัง พลิกตัว ให้สะอาดและสบาย</li>
+      <li><b>ดูแลจิตใจและครอบครัว</b>ครอบครัวอยู่ใกล้ชิด ทำพิธีกรรมตามความเชื่อได้ตามความเหมาะสม</li></ol>
+     ${W('ทำบางส่วนได้ไหม','ได้ เช่น ให้ยาและกระตุกไฟฟ้า แต่ไม่ใส่ท่อช่วยหายใจ แพทย์จะช่วยพิจารณาว่าทางเลือกใดเหมาะกับผู้ป่วย')}`},
+   {id:'pain',label:'ความปวดและยานอนหลับ',html:`<h3>ความปวดและยานอนหลับ</h3>
+     ${W('ระหว่างการช่วยฟื้นคืนชีพ','ผู้ป่วยไม่รู้สึกตัวเพราะสมองขาดเลือด จึงไม่รับรู้ความเจ็บขณะกดหน้าอก')}
+     ${W('หลังหัวใจกลับมาเต้น','ให้ยาแก้ปวดและยานอนหลับแบบเดียวกับผู้ป่วยที่ใส่ท่อช่วยหายใจ โดยเฉพาะเมื่อซี่โครงหัก')}
+     ${W('เมื่อเลือกการดูแลแบบประคับประคอง','ใช้ยาแก้ปวดและยาลดหอบอย่างเพียงพอ บางรายที่ทุกข์ทรมานมากอาจให้ยานอนหลับเพื่อให้สงบ เป้าหมายคือความสุขสบาย ไม่ใช่เร่งการเสียชีวิต')}`},
+   {id:'faq',label:'ข้อที่ครอบครัวมักกังวล',html:`<h3>ข้อที่ครอบครัวมักกังวล</h3>
+     ${W('ถ้าไม่ทำ CPR แปลว่าทอดทิ้งผู้ป่วยไหม','ไม่ใช่ ทีมยังดูแลเต็มที่ในทุกเรื่องที่ช่วยให้ผู้ป่วยสบาย การตัดสินใจนี้คือการเลือกสิ่งที่ตรงกับประโยชน์และความต้องการของผู้ป่วย')}
+     ${W('ใครเป็นคนตัดสินใจ','ถ้าผู้ป่วยตัดสินใจเองได้ ผู้ป่วยเป็นผู้ตัดสินใจ ถ้าไม่ได้ ครอบครัวช่วยตัดสินใจโดยยึดสิ่งที่ผู้ป่วยน่าจะต้องการ แพทย์ให้คำแนะนำทางการแพทย์ ครอบครัวไม่ต้องแบกการตัดสินใจไว้คนเดียว')}
+     ${W('ผู้ป่วยเคยเขียนหนังสือแสดงเจตนาไว้','ตามมาตรา 12 พ.ร.บ.สุขภาพแห่งชาติ บุคคลทำหนังสือแสดงเจตนาไม่ประสงค์รับบริการสาธารณสุขที่เป็นไปเพื่อยืดการตายในวาระสุดท้ายได้ ถ้ามีโปรดแจ้งทีมและนำสำเนามาให้')}
+     ${W('คนในครอบครัวเห็นไม่ตรงกัน','ขอนัดประชุมครอบครัวกับแพทย์ได้ ใช้เวลาคุยจนเข้าใจตรงกัน ระหว่างนั้นทีมจะดูแลผู้ป่วยตามมาตรฐาน')}
+     ${W('เปลี่ยนใจได้ไหม','ได้ตลอดเวลา แจ้งแพทย์หรือพยาบาล การตัดสินใจจะถูกบันทึกใหม่')}
+     ${W('ครอบครัวอยู่ในห้องขณะทำ CPR ได้ไหม','บางโรงพยาบาลอนุญาตโดยมีเจ้าหน้าที่อยู่ด้วยและอธิบาย ครอบครัวเลือกได้ว่าจะอยู่หรือไม่')}`},
+   {id:'risk',label:'ผลข้างเคียง',html:riskPanel}]
+}};
+
+function riskPanel(){
+  const c=cur,f=c.riskFig;
+  const fig=f?`<div class="riskfig"><div><div class="plate">${c.svg('risk',f.step).replace('</svg>',riskMarks(f.marks)+'</svg>')}</div><div class="hint" style="margin-top:6px">${f.cap}</div></div>
+    <ol class="rlegend">${f.marks.map(m=>`<li><b class="n">${m.n}</b><span>${m.t}<small>${m.f}</small></span></li>`).join('')}</ol></div>`:'';
+  return `<h3>ความเสี่ยงที่อาจเกิดขึ้น</h3><p>ทีมเตรียมยาและอุปกรณ์แก้ไขไว้พร้อมก่อนทำหัตถการทุกครั้ง ความถี่ด้านล่างเป็นภาพรวม ผู้ป่วยวิกฤตมากมีโอกาสเกิดสูงกว่า</p>${fig}
+   <div class="tbl"><table class="risk"><thead><tr><th>ความเสี่ยง</th><th>พบได้</th><th>การป้องกันและแก้ไข</th></tr></thead><tbody>
+   ${c.risks.map(g=>`<tr class="grp"><td colspan="3">${g.g}</td></tr>`+g.items.map(r=>`<tr><td>${r[0]}</td><td class="freq">${[1,2,3].map(k=>`<i class="${k<=r[1]?'on':''}"></i>`).join('')} ${FREQ[r[1]]}</td><td>${r[2]}</td></tr>`).join('')).join('')}
+   </tbody></table></div>${DR('risk','ความเสี่ยงเฉพาะของผู้ป่วยรายนี้')}`;
+}
+
+/* ================= app ================= */
+let cur=null,step=1,draws=[],drawsReady=false;
+const views=$$('.view'),tabs=$$('.stepnav button');
+
+$('#cards').innerHTML=Object.values(PROCS).map(p=>`<article class="card"><div class="thumb">${p.svg('thumb',p.printStep)}</div><div class="body"><h3>${p.title}</h3><div class="en">${p.en}</div><p>${p.blurb}</p><button class="btn primary" data-start="${p.key}">เริ่มอธิบาย</button></div></article>`).join('');
+$$('[data-start]').forEach(b=>b.addEventListener('click',()=>startProc(b.dataset.start)));
+
+function showLanding(){
+  cur=null;$('#landing').hidden=false;views.forEach(v=>v.hidden=true);$('.stepnav').hidden=true;$('#toLanding').hidden=true;
+  $('#mastTitle').textContent='ข้อมูลก่อนทำหัตถการเสี่ยงสูง';$('#mastSub').textContent='สำหรับอธิบายครอบครัว และบันทึกความยินยอม';
+  window.scrollTo(0,0);
+}
+$('#toLanding').addEventListener('click',showLanding);
+$$('[data-landing]').forEach(b=>b.addEventListener('click',showLanding));
+
+function startProc(k){
+  cur=PROCS[k];step=1;drawsReady=false;
+  $('#landing').hidden=true;$('.stepnav').hidden=false;$('#toLanding').hidden=false;
+  $('#mastTitle').textContent=cur.title;$('#mastSub').textContent=cur.en;
+  // tab 1
+  const opt=o=>Object.entries(o).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('');
+  $('#procFields').innerHTML=`<div class="section"><fieldset class="checks" id="indications"><legend>${cur.indLabel}</legend>${cur.ind.map(x=>`<label><input type="checkbox" value="${esc(x)}">${x}</label>`).join('')}</fieldset>
+   <div class="grid" style="margin-top:10px"><label class="f">อื่น ๆ<input id="indOther"></label>
+   <label class="f">ความเร่งด่วน<select id="urgency"><option value="">เลือก</option><option>ไม่เร่งด่วน วางแผนล่วงหน้า</option><option>เร่งด่วน ภายในไม่กี่ชั่วโมง</option><option>ฉุกเฉิน เพื่อช่วยชีวิต</option></select></label>
+   ${cur.extra.map(x=>`<label class="f">${x.label}<select id="${x.id}" data-extra="${x.label}"><option value="">เลือก</option>${x.opts.map(o=>`<option>${o}</option>`).join('')}</select></label>`).join('')}</div></div>
+   <div class="section"><h3>ความเห็นแพทย์สำหรับผู้ป่วยรายนี้</h3><div class="grid">
+   <label class="f">${cur.course.label}<select id="course"><option value="">เลือก</option>${opt(cur.course.opts)}</select></label>
+   <label class="f">การพยากรณ์โรคโดยรวม<select id="prog"><option value="">เลือก</option><option value="good">ดี</option><option value="fair">ปานกลาง</option><option value="guarded">สงวนท่าที</option><option value="poor">ไม่ดี</option></select></label>
+   <label class="f wide">รายละเอียดการพยากรณ์โรค (ภาษาที่ครอบครัวเข้าใจ)<textarea id="progNote"></textarea></label>
+   <label class="f wide">ความเสี่ยงเฉพาะของผู้ป่วยรายนี้<textarea id="specRisk"></textarea></label>
+   <label class="f wide">ทางเลือกที่ได้พิจารณาแล้ว<textarea id="altNote"></textarea></label>
+   <label class="f">แพทย์ผู้ให้ข้อมูล<input id="drName"></label><label class="f">เลขที่ใบประกอบวิชาชีพ<input id="drLic"></label></div></div>`;
+  // tab 2
+  $('#illTitle').textContent=cur.illTitle;$('#plateCap').textContent=cur.plateCap;
+  $('#svgHost').innerHTML=cur.svg('screen');
+  $('#dots').innerHTML=cur.steps.map((s,i)=>`<li><button data-s="${i+1}" aria-label="ขั้นตอนที่ ${i+1}: ${s.t}">${i+1}</button></li>`).join('');
+  $$('#dots button').forEach(b=>b.addEventListener('click',()=>setStep(+b.dataset.s)));
+  // tab 3
+  $('#careTitle').textContent=cur.careTitle;
+  const panels=cur.panels();
+  $('#chips').innerHTML=panels.map((p,i)=>`<button class="chip" role="tab" data-p="${p.id}" aria-selected="${i===0}">${p.label}</button>`).join('');
+  $('#panels').innerHTML=panels.map((p,i)=>`<div class="panel" data-panel="${p.id}" ${i?'hidden':''}>${typeof p.html==='function'?p.html():p.html}</div>`).join('');
+  $$('#chips .chip').forEach(c=>c.addEventListener('click',()=>{$$('#chips .chip').forEach(x=>x.setAttribute('aria-selected',x===c));$$('.panel').forEach(p=>p.hidden=p.dataset.panel!==c.dataset.p);}));
+  // tab 4
+  $('#acks').innerHTML='<legend>ครอบครัวยืนยันว่า</legend>'+cur.acks.map((a,i)=>`<label><input type="checkbox" data-ack="${i}">${a}</label>`).join('');
+  $('#decisions').innerHTML=cur.decisions.map(d=>`<label><input type="radio" name="dec" value="${d.v}">${d.label}</label>`).join('');
+  $('#decExtra').innerHTML='';
+  $$('input[name=dec]').forEach(r=>r.addEventListener('change',renderDecExtra));
+  Object.values(pads).forEach(p=>p.clear());
+  $('#pages').innerHTML='';$('#preview').hidden=true;$('#errs').hidden=true;status('');
+  $('#when').value=nowLocal();
+  ['cName','cRel','wName'].forEach(id=>$('#'+id).value='');
+  go(0);setStep(1);
+}
+function renderDecExtra(){
+  const d=cur.decisions.find(x=>x.v===decVal());const box=$('#decExtra');
+  if(!d){box.innerHTML='';return;}
+  box.innerHTML=(d.sub?`<fieldset class="checks"><legend>เลือกสิ่งที่ประสงค์ให้ทำ</legend>${d.sub.map(s=>`<label><input type="checkbox" data-sub value="${s}">${s}</label>`).join('')}</fieldset>`:'')
+   +(d.why?`<label class="f" style="margin-top:8px">${d.why}<textarea id="decWhy"></textarea></label>`:'')
+   +(d.ack?`<label class="chk"><input type="checkbox" id="decAck">${d.ack}</label>`:'');
+}
+const decVal=()=>{const r=document.querySelector('input[name=dec]:checked');return r?r.value:'';};
+
+function go(i){
+  views.forEach(v=>v.hidden=+v.dataset.v!==i);
+  tabs.forEach(t=>t.setAttribute('aria-selected',+t.dataset.view===i));
+  syncDoctor();
+  if(i===1&&!drawsReady){setupDraws();drawsReady=true;setStep(step);}
+  if(i===3){if(!padsReady){initPads();padsReady=true;}else Object.values(pads).forEach(p=>p.resize());}
+  window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
+tabs.forEach(t=>t.addEventListener('click',()=>go(+t.dataset.view)));
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.go)));
+
+function setupDraws(){
+  draws=$$('#svgHost .draw').map(p=>{let l=0;try{l=p.getTotalLength();}catch(e){}p.style.strokeDasharray=l;p.style.strokeDashoffset=l;return{p,l,g:p.closest('.lyr')};});
+}
+function setStep(n){
+  if(!cur)return;
+  step=Math.max(1,Math.min(cur.steps.length,n));
+  $$('#svgHost .lyr').forEach(g=>g.classList.toggle('off',!inRange(g.dataset.show,step)));
+  draws.forEach(d=>d.p.style.strokeDashoffset=(d.g&&inRange(d.g.dataset.show,step))?0:d.l);
+  const s=cur.steps[step-1];
+  $('#sCount').textContent=`ขั้นตอนที่ ${step} จาก ${cur.steps.length}`;
+  $('#sTitle').textContent=s.t;$('#sDesc').textContent=s.d;
+  $('#sPts').innerHTML=s.p.map(x=>`<li>${esc(x)}</li>`).join('');
+  $$('#dots button').forEach(b=>b.toggleAttribute('aria-current',false));
+  $(`#dots button[data-s="${step}"]`)?.setAttribute('aria-current','step');
+  const ins=cur.inset(step);
+  $('#inset').hidden=!ins;
+  if(ins){$('#insetFig').innerHTML=ins.html;$('#insetText').textContent=ins.text;}
+  $('#prev').disabled=step===1;$('#next').disabled=step===cur.steps.length;
+}
+$('#prev').addEventListener('click',()=>setStep(step-1));
+$('#next').addEventListener('click',()=>setStep(step+1));
+$('#togLabels').addEventListener('click',e=>{const on=$('#plate').classList.toggle('hide-labels');e.currentTarget.setAttribute('aria-pressed',!on);e.currentTarget.textContent=on?'แสดงชื่ออวัยวะ':'ซ่อนชื่ออวัยวะ';});
+
+function syncDoctor(){
+  $('#hospShow').textContent=val('hosp')||'โรงพยาบาล';
+  if(!cur)return;
+  const c=val('course'),pr=val('prog'),pn=val('progNote'),sr=val('specRisk');
+  const content={course:c?esc(cur.course.opts[c][1]):'',prog:(pr||pn)?(pr?`<p><b>${esc(PROG[pr])}</b></p>`:'')+(pn?`<p>${nl(pn)}</p>`:''):'',risk:sr?nl(sr):''};
+  $$('[data-dr]').forEach(b=>{const v=content[b.dataset.dr];const el=b.querySelector('.drv');el.classList.toggle('empty',!v);el.innerHTML=v||'แพทย์ยังไม่ได้ระบุในขั้นตอนที่ 1';});
+}
+$('#hosp').addEventListener('input',syncDoctor);
+
+function nowLocal(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16);}
+$('#when').value=nowLocal();
+
+/* signature pads */
+const pads={};let padsReady=false;
+function initPads(){['sig1','sig2','sig3'].forEach(id=>{pads[id]=makePad($('#'+id));});}
+function makePad(cv){
+  const ctx=cv.getContext('2d');let drawing=false,ink=false,last=null;
+  function size(){const r=cv.getBoundingClientRect();const dpr=window.devicePixelRatio||1;cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineWidth=2.4;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#0B2545';}
+  size();
+  const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];};
+  cv.addEventListener('pointerdown',e=>{drawing=true;cv.setPointerCapture(e.pointerId);last=pos(e);ctx.beginPath();ctx.arc(last[0],last[1],1.1,0,7);ctx.fillStyle='#0B2545';ctx.fill();ink=true;});
+  cv.addEventListener('pointermove',e=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p;});
+  const end=()=>{drawing=false;};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  return{has:()=>ink,clear(){ctx.clearRect(0,0,cv.width,cv.height);ink=false;},data:()=>ink?cv.toDataURL('image/png'):'',resize(){if(!ink&&cv.getBoundingClientRect().width>0)size();}};
+}
+$$('[data-clear]').forEach(b=>b.addEventListener('click',()=>pads[b.dataset.clear]?.clear()));
+window.addEventListener('resize',()=>{Object.values(pads).forEach(p=>p.resize());fitPreview();});
+
+function validate(){
+  const e=[];
+  if(!val('ptName'))e.push('ชื่อ-สกุลผู้ป่วย (ขั้นตอนที่ 1)');
+  if(!val('drName'))e.push('ชื่อแพทย์ผู้ให้ข้อมูล (ขั้นตอนที่ 1)');
+  if(!val('cName'))e.push('ชื่อ-สกุลผู้ให้ความยินยอม');
+  if(!val('cRel'))e.push('ความเกี่ยวข้องกับผู้ป่วย');
+  const d=cur.decisions.find(x=>x.v===decVal());
+  if(!d)e.push('เลือกการตัดสินใจ');
+  else{
+    if(d.acks&&$$('[data-ack]').some(c=>!c.checked))e.push('ครอบครัวยืนยันความเข้าใจให้ครบทุกข้อ');
+    if(d.sub&&!$$('[data-sub]:checked').length)e.push('เลือกอย่างน้อยหนึ่งสิ่งที่ประสงค์ให้ทำ');
+    if(d.ack&&!$('#decAck')?.checked)e.push('ครอบครัวรับทราบผลของการตัดสินใจ');
+  }
+  if(!pads.sig1?.has())e.push('ลายมือชื่อผู้ให้ความยินยอม');
+  if(!pads.sig3?.has())e.push('ลายมือชื่อแพทย์');
+  const box=$('#errs');
+  if(e.length){box.innerHTML='ยังขาดข้อมูลต่อไปนี้<ul>'+e.map(x=>`<li>${x}</li>`).join('')+'</ul>';box.hidden=false;box.scrollIntoView({block:'nearest'});return false;}
+  box.hidden=true;return true;
+}
+
+function collect(){
+  return{hosp:val('hosp')||'โรงพยาบาล',pt:val('ptName'),hn:val('hn'),an:val('an'),age:val('age'),sex:val('sex'),ward:val('ward'),dx:val('dx'),
+    ind:$$('#indications input:checked').map(c=>c.value).concat(val('indOther')?[val('indOther')]:[]),urg:val('urgency'),
+    extra:$$('[data-extra]').filter(s=>s.value).map(s=>`${s.dataset.extra}: ${s.value}`),
+    course:val('course'),prog:val('prog'),progNote:val('progNote'),specRisk:val('specRisk'),alt:val('altNote'),dr:val('drName'),lic:val('drLic'),
+    cName:val('cName'),cRel:val('cRel'),wName:val('wName'),when:val('when'),dec:decVal(),why:val('decWhy'),decAck:!!$('#decAck')?.checked,
+    subs:$$('[data-sub]:checked').map(c=>c.value),acks:$$('[data-ack]').map(c=>c.checked),
+    s1:pads.sig1?.data()||'',s2:pads.sig2?.data()||'',s3:pads.sig3?.data()||''};
+}
+function thaiDate(v){if(!v)return'';try{return new Date(v).toLocaleString('th-TH',{dateStyle:'long',timeStyle:'short'})+' น.';}catch(e){return v;}}
+function pagesHTML(d){
+  const c=cur,box=on=>`<span class="box${on?' on':''}"></span>`,blank='........................';
+  const legend=c.labels.filter(o=>!o.show||inRange(o.show,c.printStep)).map(o=>`<div>${o.n} ${o.pdf||o.t}</div>`).join('');
+  const foot=n=>`<div class="pg-foot"><span>${esc(d.hosp)}  ${c.code}</span><span>ผู้ป่วย ${esc(d.pt)} HN ${esc(d.hn)||'-'}  หน้า ${n}/2</span></div>`;
+  const p1=`<div class="a4"><div class="pg-body">
+  <div class="pg-head"><div><div class="ph-h">${esc(d.hosp)}</div><div class="ph-s">แบบให้ข้อมูลและแสดงความยินยอมรับการรักษา</div></div><div class="ph-id">HN ${esc(d.hn)||'-'}<br>AN ${esc(d.an)||'-'}</div></div>
+  <h1>${c.title}<br><span class="en">${c.en}</span></h1>
+  <table class="pt"><tr><td>ชื่อ-สกุลผู้ป่วย: <b>${esc(d.pt)}</b></td><td>อายุ: ${esc(d.age)||'-'} ปี</td><td>เพศ: ${esc(d.sex)||'-'}</td></tr>
+  <tr><td colspan="2">การวินิจฉัย: ${esc(d.dx)||'-'}</td><td>หอผู้ป่วย/เตียง: ${esc(d.ward)||'-'}</td></tr>
+  <tr><td colspan="3">ความเร่งด่วน: ${esc(d.urg)||'-'}${d.extra.length?'  |  '+d.extra.map(esc).join('  |  '):''}</td></tr></table>
+  <h2>1. ${c.indLabel}</h2>${d.ind.length?'<ul>'+d.ind.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':'<p>-</p>'}
+  <h2>2. ขั้นตอน</h2>
+  <div class="pfig"><ol>${c.steps.slice(1).map(s=>`<li><b>${s.t}</b> ${s.d}</li>`).join('')}</ol><div>${c.svg('print',c.printStep)}<div class="legend">${legend}</div></div></div>
+  <h2>3. การดูแลและการจัดการอาการ</h2><ul>${c.pdfCare.map(x=>`<li><b>${x[0]}</b> ${x[1]}</li>`).join('')}</ul>
+  <h2>4. ${c.pdfDur[0]}</h2><p>${c.pdfDur[1]}</p>
+  <p><b>${c.course.label}:</b> ${d.course?esc(c.course.opts[d.course][1]):'-'}</p>
+  </div>${foot(1)}</div>`;
+  const riskTxt=c.risks.map(g=>`<p><b>${g.g}:</b> ${g.items.map(r=>`${r[0]} (พบ${FREQ[r[1]]})`).join(', ')}</p>`).join('');
+  const decTxt=c.decisions.map(x=>{const on=d.dec===x.v;let s=`<div>${box(on)}${x.pdf}`;
+    if(x.sub)s+=' '+x.sub.map(t=>`${box(on&&d.subs.includes(t))}${t}`).join('  ');
+    if(on&&x.why&&d.why)s+=`<br>${x.why.replace(' (ถ้ามี)','')}: ${nl(d.why)}`;
+    if(on&&x.ack)s+=`<br>${box(d.decAck)}${x.ack}`;return s+'</div>';}).join('');
+  const sigCell=(img,title,name,extra)=>`<div class="scell">${img?`<img src="${img}" alt="">`:'<div class="blank"></div>'}<div>(${name?esc(name):blank})</div><div><b>${title}</b></div>${extra?`<div>${extra}</div>`:''}</div>`;
+  const p2=`<div class="a4"><div class="pg-body">
+  <h2 style="margin-top:0">5. ความเสี่ยงและภาวะแทรกซ้อนที่อาจเกิดขึ้น</h2>${riskTxt}
+  <p><b>ความเสี่ยงเฉพาะของผู้ป่วยรายนี้:</b> ${d.specRisk?nl(d.specRisk):'-'}</p>
+  <h2>6. ${c.altTitle}</h2><p>${c.alt}</p><p><b>ทางเลือกที่แพทย์ได้พิจารณาแล้ว:</b> ${d.alt?nl(d.alt):'-'}</p>
+  <h2>7. การพยากรณ์โรคตามความเห็นของแพทย์</h2><p>${d.prog?`<b>${esc(PROG[d.prog])}</b>`:'-'}</p>${d.progNote?`<p>${nl(d.progNote)}</p>`:''}
+  <h2>8. การแสดงเจตนา</h2>
+  <p>ข้าพเจ้า ${esc(d.cName)||blank} เกี่ยวข้องเป็น ${esc(d.cRel)||blank} ของผู้ป่วย ขอยืนยันว่า</p>
+  ${c.acks.map((a,i)=>`<div>${box(d.acks[i])}${a}</div>`).join('')}
+  <div class="note">${decTxt}</div>
+  <p style="margin-top:4px;font-size:.9em">${c.note}</p>
+  <div class="sgrid">${sigCell(d.s1,'ผู้ให้ความยินยอม',d.cName,esc(d.cRel))}${sigCell(d.s2,'พยาน',d.wName,'')}${sigCell(d.s3,'แพทย์ผู้ให้ข้อมูล',d.dr,d.lic?'ว. '+esc(d.lic):'')}</div>
+  <p style="text-align:center;margin-top:10px">วันที่และเวลา ${esc(thaiDate(d.when))||blank}</p>
+  </div>${foot(2)}</div>`;
+  return p1+p2;
+}
+function fitPage(pg){const body=pg.querySelector('.pg-body');let fs=13;pg.style.setProperty('--pfs',fs+'px');while(body.scrollHeight>body.clientHeight+1&&fs>9){fs-=.5;pg.style.setProperty('--pfs',fs+'px');}}
+function renderPreview(){const host=$('#pages');$('#preview').hidden=false;host.style.transform='none';host.innerHTML=pagesHTML(collect());host.querySelectorAll('.a4').forEach(fitPage);fitPreview();}
+function fitPreview(){const pv=$('#preview'),host=$('#pages');if(pv.hidden||!host.firstElementChild)return;const s=Math.min(1,(pv.clientWidth-32)/794);host.style.transform=`scale(${s})`;host.style.width='794px';pv.style.height=(host.scrollHeight*s+32)+'px';}
+const status=t=>{$('#status').textContent=t;};
+let dlP=null;
+function getDownloads(){if(!dlP)dlP=(window.claude&&typeof window.claude.use==='function')?Promise.resolve(window.claude.use('downloads')).catch(()=>null):Promise.resolve(null);return dlP;}
+getDownloads();
+
+$('#btnPreview').addEventListener('click',()=>{renderPreview();status('');$('#preview').scrollIntoView({block:'start'});});
+$('#btnPdf').addEventListener('click',async()=>{
+  if(!validate())return;renderPreview();
+  const btn=$('#btnPdf');btn.disabled=true;status('กำลังสร้าง PDF');const cap=$('#capHost');
+  try{
+    if(!window.html2canvas||!window.jspdf)throw{code:'nolib'};
+    await document.fonts.ready;cap.innerHTML='';
+    const pages=$$('#pages .a4').map(p=>{const c=p.cloneNode(true);c.style.boxShadow='none';c.style.margin='0';cap.appendChild(c);return c;});
+    const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
+    for(let i=0;i<pages.length;i++){const cv=await html2canvas(pages[i],{scale:2,backgroundColor:'#ffffff',logging:false,useCORS:true});if(i)pdf.addPage();pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,210,297);}
+    cap.innerHTML='';
+    const blob=pdf.output('blob');const d=new Date();
+    const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    const fname=`${cur.code}_HN${(val('hn')||'na').replace(/[^\w-]/g,'')}_${ds}.pdf`;
+    const dl=await getDownloads();
+    if(!dl){pdf.save(fname);status('บันทึกแล้ว: '+fname);return;}
+    await dl.save({filename:fname,data:blob});status('บันทึกแล้ว: '+fname);
+  }catch(e){cap.innerHTML='';
+    if(e&&e.code==='declined')status('ยกเลิกการบันทึกแล้ว');
+    else if(e&&e.code==='rate_limited')status('มีหน้าต่างบันทึกเปิดอยู่ รอสักครู่แล้วลองอีกครั้ง');
+    else status('สร้าง PDF ไม่สำเร็จ ใช้ปุ่ม "พิมพ์" แล้วเลือก "บันทึกเป็น PDF" แทน');
+  }finally{btn.disabled=false;}
+});
+$('#btnPrint').addEventListener('click',()=>{if(!validate())return;renderPreview();const ph=$('#printHost');ph.innerHTML='';$$('#pages .a4').forEach(p=>ph.appendChild(p.cloneNode(true)));try{window.print();}catch(e){status('เบราว์เซอร์นี้สั่งพิมพ์จากหน้านี้ไม่ได้');}});
+$('#btnReset').addEventListener('click',()=>{
+  if(!confirm('ล้างข้อมูลผู้ป่วย ลายมือชื่อ และเอกสารทั้งหมด?'))return;
+  $$('input,select,textarea').forEach(el=>{if(el.type==='checkbox'||el.type==='radio')el.checked=false;else if(el.id!=='hosp')el.value='';});
+  $('#when').value=nowLocal();Object.values(pads).forEach(p=>p.clear());$('#decExtra').innerHTML='';
+  $('#pages').innerHTML='';$('#preview').hidden=true;$('#errs').hidden=true;$('#printHost').innerHTML='';
+  status('ล้างข้อมูลแล้ว');syncDoctor();
+});
+showLanding();
+})();
+</script>
+</body>
+</html>
